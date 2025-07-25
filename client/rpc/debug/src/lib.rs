@@ -644,7 +644,7 @@ where
 				let f = || -> RpcResult<_> {
 					let result = if trace_api_version >= 5 {
 						// The block is initialized inside "trace_transaction"
-						api.trace_transaction(parent_block_hash, exts, &transaction, &header)
+						api.trace_transaction(parent_block_hash, exts, transaction, &header)
 					} else {
 						// Get core runtime api version
 						let core_api_version = if let Ok(Some(api_version)) =
@@ -681,11 +681,11 @@ where
 							api.trace_transaction_before_version_5(
 								parent_block_hash,
 								exts,
-								&transaction,
+								transaction,
 							)
 						} else {
 							// Pre-london update, legacy transactions.
-							match transaction {
+							match &**transaction {
 								ethereum::TransactionV2::Legacy(tx) =>
 								{
 									#[allow(deprecated)]
