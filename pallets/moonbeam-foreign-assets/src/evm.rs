@@ -187,7 +187,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit.ref_time()),
+			Some(weight_limit),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -237,7 +237,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit.ref_time()),
+			Some(weight_limit),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -255,8 +255,7 @@ impl<T: crate::Config> EvmCaller<T> {
 		);
 
 		// return value is true.
-		let mut bytes = [0u8; 32];
-		U256::from(1).to_big_endian(&mut bytes);
+		let bytes = U256::from(1).to_big_endian();
 
 		// Check return value to make sure not calling on empty contracts.
 		ensure!(
@@ -296,7 +295,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit.ref_time()),
+			Some(weight_limit),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -345,7 +344,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit.ref_time()),
+			Some(weight_limit),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -386,7 +385,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit.ref_time()),
+			Some(weight_limit),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -432,7 +431,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit.ref_time()),
+			Some(weight_limit),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)

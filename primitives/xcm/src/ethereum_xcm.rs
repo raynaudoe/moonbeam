@@ -19,10 +19,19 @@ use ethereum::{
 	TransactionAction, TransactionSignature, TransactionV2,
 };
 use ethereum_types::{H160, H256, U256};
+
+// Helper macro to convert between different versions of the same type
+// This works because both versions have the same memory layout
+macro_rules! transmute_copy {
+	($val:expr) => {
+		unsafe { sp_std::mem::transmute_copy(&$val) }
+	};
+}
 use frame_support::{traits::ConstU32, BoundedVec};
 use parity_scale_codec::{Decode, Encode};
 use scale_info::TypeInfo;
 use sp_std::vec::Vec;
+
 
 // polkadot/blob/19f6665a6162e68cd2651f5fe3615d6676821f90/xcm/src/v3/mod.rs#L1193
 // Defensively we increase this value to allow UMP fragments through xcm-transactor to prepare our
@@ -72,6 +81,7 @@ pub enum EthereumXcmTransaction {
 pub fn rs_id() -> H256 {
 	H256::from_low_u64_be(1u64)
 }
+
 
 #[derive(Clone, Debug, Eq, PartialEq, Encode, Decode, TypeInfo)]
 pub struct EthereumXcmTransactionV1 {
@@ -139,8 +149,8 @@ impl XcmToEthereum for EthereumXcmTransactionV1 {
 		let from_tuple_to_access_list = |t: &Vec<(H160, Vec<H256>)>| -> AccessList {
 			t.iter()
 				.map(|item| AccessListItem {
-					address: item.0.clone(),
-					storage_keys: item.1.clone(),
+					address: transmute_copy!(item.0),
+					storage_keys: item.1.iter().map(|h| transmute_copy!(h)).collect(),
 				})
 				.collect::<Vec<AccessListItem>>()
 		};
@@ -158,27 +168,27 @@ impl XcmToEthereum for EthereumXcmTransactionV1 {
 					// Eip-2930
 					Some(TransactionV2::EIP2930(EIP2930Transaction {
 						chain_id,
-						nonce,
-						gas_price,
-						gas_limit: self.gas_limit,
+						nonce: transmute_copy!(nonce),
+						gas_price: transmute_copy!(gas_price),
+						gas_limit: transmute_copy!(self.gas_limit),
 						action: self.action,
-						value: self.value,
+						value: transmute_copy!(self.value),
 						input: self.input.to_vec(),
 						access_list: from_tuple_to_access_list(access_list),
 						odd_y_parity: true,
-						r: rs_id(),
-						s: rs_id(),
+						r: transmute_copy!(rs_id()),
+						s: transmute_copy!(rs_id()),
 					}))
 				} else {
 					// Legacy
 					Some(TransactionV2::Legacy(LegacyTransaction {
-						nonce,
-						gas_price,
-						gas_limit: self.gas_limit,
+						nonce: transmute_copy!(nonce),
+						gas_price: transmute_copy!(gas_price),
+						gas_limit: transmute_copy!(self.gas_limit),
 						action: self.action,
-						value: self.value,
+						value: transmute_copy!(self.value),
 						input: self.input.to_vec(),
-						signature: TransactionSignature::new(42, rs_id(), rs_id())?,
+						signature: TransactionSignature::new(42, transmute_copy!(rs_id()), transmute_copy!(rs_id()))?,
 					}))
 				}
 			}
@@ -186,12 +196,12 @@ impl XcmToEthereum for EthereumXcmTransactionV1 {
 				// Eip-1559
 				Some(TransactionV2::EIP1559(EIP1559Transaction {
 					chain_id,
-					nonce,
-					max_fee_per_gas: max_fee,
-					max_priority_fee_per_gas: U256::zero(),
-					gas_limit: self.gas_limit,
+					nonce: transmute_copy!(nonce),
+					max_fee_per_gas: transmute_copy!(max_fee),
+					max_priority_fee_per_gas: transmute_copy!(U256::zero()),
+					gas_limit: transmute_copy!(self.gas_limit),
 					action: self.action,
-					value: self.value,
+					value: transmute_copy!(self.value),
 					input: self.input.to_vec(),
 					access_list: if let Some(ref access_list) = self.access_list {
 						from_tuple_to_access_list(access_list)
@@ -199,8 +209,8 @@ impl XcmToEthereum for EthereumXcmTransactionV1 {
 						Vec::new()
 					},
 					odd_y_parity: true,
-					r: rs_id(),
-					s: rs_id(),
+					r: transmute_copy!(rs_id()),
+					s: transmute_copy!(rs_id()),
 				}))
 			}
 			_ => return None,
@@ -222,20 +232,20 @@ impl XcmToEthereum for EthereumXcmTransactionV2 {
 		let from_tuple_to_access_list = |t: &Vec<(H160, Vec<H256>)>| -> AccessList {
 			t.iter()
 				.map(|item| AccessListItem {
-					address: item.0.clone(),
-					storage_keys: item.1.clone(),
+					address: transmute_copy!(item.0),
+					storage_keys: item.1.iter().map(|h| transmute_copy!(h)).collect(),
 				})
 				.collect::<Vec<AccessListItem>>()
 		};
 		// Eip-1559
 		Some(TransactionV2::EIP1559(EIP1559Transaction {
 			chain_id,
-			nonce,
-			max_fee_per_gas: U256::zero(),
-			max_priority_fee_per_gas: U256::zero(),
-			gas_limit: self.gas_limit,
+			nonce: transmute_copy!(nonce),
+			max_fee_per_gas: transmute_copy!(U256::zero()),
+			max_priority_fee_per_gas: transmute_copy!(U256::zero()),
+			gas_limit: transmute_copy!(self.gas_limit),
 			action: self.action,
-			value: self.value,
+			value: transmute_copy!(self.value),
 			input: self.input.to_vec(),
 			access_list: if let Some(ref access_list) = self.access_list {
 				from_tuple_to_access_list(access_list)
@@ -243,8 +253,8 @@ impl XcmToEthereum for EthereumXcmTransactionV2 {
 				Vec::new()
 			},
 			odd_y_parity: true,
-			r: rs_id(),
-			s: rs_id(),
+			r: transmute_copy!(rs_id()),
+			s: transmute_copy!(rs_id()),
 		}))
 	}
 }
@@ -335,8 +345,8 @@ mod tests {
 		let from_tuple_to_access_list = |t: &Vec<(H160, Vec<H256>)>| -> AccessList {
 			t.iter()
 				.map(|item| AccessListItem {
-					address: item.0.clone(),
-					storage_keys: item.1.clone(),
+					address: transmute_copy!(item.0),
+					storage_keys: item.1.iter().map(|h| transmute_copy!(h)).collect(),
 				})
 				.collect::<Vec<AccessListItem>>()
 		};
