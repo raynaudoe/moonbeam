@@ -15,6 +15,7 @@
 // along with Moonbeam.  If not, see <http://www.gnu.org/licenses/>.
 
 use crate::{AssetId, Error, Pallet};
+use alloc::format; // Fixed based on PR-5693
 use ethereum_types::{BigEndianHash, H160, H256, U256};
 use fp_evm::{ExitReason, ExitSucceed};
 use frame_support::ensure;
@@ -25,7 +26,7 @@ use precompile_utils::solidity::codec::{Address, BoundedString};
 use precompile_utils::solidity::Codec;
 use precompile_utils_macro::keccak256;
 use sp_runtime::traits::ConstU32;
-use sp_runtime::{format, DispatchError, SaturatedConversion};
+use sp_runtime::{DispatchError, SaturatedConversion};
 use sp_std::vec::Vec;
 use xcm::latest::Error as XcmError;
 
