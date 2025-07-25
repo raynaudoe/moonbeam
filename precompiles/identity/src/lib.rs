@@ -379,9 +379,12 @@ where
 
 		let who: H160 = who.into();
 		let who = Runtime::AddressMapping::into_account_id(who);
-		let identity = pallet_identity::Pallet::<Runtime>::identity(who);
+		let identity = pallet_identity::IdentityOf::<Runtime>::get(who);
+		// The new API returns just the Registration, but identity_to_output expects a tuple
+		// with an optional username field, so we wrap it
+		let identity_with_username = identity.map(|reg| (reg, None));
 
-		Ok(Self::identity_to_output(identity)?)
+		Ok(Self::identity_to_output(identity_with_username)?)
 	}
 
 	#[precompile::public("superOf(address)")]
@@ -395,7 +398,7 @@ where
 
 		let who: H160 = who.into();
 		let who = Runtime::AddressMapping::into_account_id(who);
-		if let Some((account, data)) = pallet_identity::Pallet::<Runtime>::super_of(who) {
+		if let Some((account, data)) = pallet_identity::SuperOf::<Runtime>::get(who) {
 			Ok(SuperOf {
 				is_valid: true,
 				account: Address(account.into()),
@@ -419,7 +422,7 @@ where
 
 		let who: H160 = who.into();
 		let who = Runtime::AddressMapping::into_account_id(who);
-		let (deposit, accounts) = pallet_identity::Pallet::<Runtime>::subs_of(who);
+		let (deposit, accounts) = pallet_identity::SubsOf::<Runtime>::get(who);
 
 		let accounts = accounts
 			.into_iter()
@@ -446,7 +449,7 @@ where
 			.saturating_mul(Runtime::MaxRegistrars::get() as usize),
 		)?;
 
-		let registrars = pallet_identity::Pallet::<Runtime>::registrars()
+		let registrars = pallet_identity::Registrars::<Runtime>::get()
 			.into_iter()
 			.enumerate()
 			.map(|(index, maybe_reg)| {

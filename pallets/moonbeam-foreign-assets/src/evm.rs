@@ -134,6 +134,7 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
 			None,
@@ -183,9 +184,10 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit),
+			Some(weight_limit.ref_time()),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -232,9 +234,10 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit),
+			Some(weight_limit.ref_time()),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -290,9 +293,10 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit),
+			Some(weight_limit.ref_time()),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -338,9 +342,10 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit),
+			Some(weight_limit.ref_time()),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -378,9 +383,10 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit),
+			Some(weight_limit.ref_time()),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
@@ -423,9 +429,10 @@ impl<T: crate::Config> EvmCaller<T> {
 			None,
 			None,
 			Default::default(),
+			Vec::new(), // Fixed based on polkadot-stable2412 - added authorization list
 			false,
 			false,
-			Some(weight_limit),
+			Some(weight_limit.ref_time()),
 			Some(0),
 			&<T as pallet_evm::Config>::config(),
 		)
