@@ -15,7 +15,6 @@
 // along with Moonbeam.  If not, see <http://www.gnu.org/licenses/>.
 
 use crate::{AssetId, Error, Pallet};
-use alloc::format; // Fixed based on PR-5693
 use ethereum_types::{BigEndianHash, H160, H256, U256};
 use fp_evm::{ExitReason, ExitSucceed};
 use frame_support::ensure;
