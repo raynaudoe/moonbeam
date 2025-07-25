@@ -16,7 +16,8 @@
 
 use sp_runtime::traits::MaybeEquivalence;
 use sp_std::marker::PhantomData;
-use xcm::v3::Location;
+use xcm::v3::Location as LocationV3;
+use xcm::v5::Location;
 use xcm_executor::traits::ConvertLocation;
 
 /// Converter struct implementing `AssetIdConversion` converting a numeric asset ID
@@ -27,49 +28,56 @@ use xcm_executor::traits::ConvertLocation;
 pub struct AsAssetType<AssetId, AssetType, AssetIdInfoGetter>(
 	PhantomData<(AssetId, AssetType, AssetIdInfoGetter)>,
 );
-impl<AssetId, AssetType, AssetIdInfoGetter> MaybeEquivalence<Location, AssetId>
+impl<AssetId, AssetType, AssetIdInfoGetter> MaybeEquivalence<LocationV3, AssetId>
 	for AsAssetType<AssetId, AssetType, AssetIdInfoGetter>
 where
 	AssetId: Clone,
-	AssetType: From<Location> + Into<Option<Location>> + Clone,
+	AssetType: From<LocationV3> + Into<Option<LocationV3>> + Clone,
 	AssetIdInfoGetter: AssetTypeGetter<AssetId, AssetType>,
 {
-	fn convert(id: &Location) -> Option<AssetId> {
+	fn convert(id: &LocationV3) -> Option<AssetId> {
 		AssetIdInfoGetter::get_asset_id(id.clone().into())
 	}
-	fn convert_back(what: &AssetId) -> Option<Location> {
+	fn convert_back(what: &AssetId) -> Option<LocationV3> {
 		AssetIdInfoGetter::get_asset_type(what.clone()).and_then(Into::into)
 	}
 }
-impl<AssetId, AssetType, AssetIdInfoGetter> MaybeEquivalence<xcm::v4::Location, AssetId>
+impl<AssetId, AssetType, AssetIdInfoGetter> MaybeEquivalence<xcm::v5::Location, AssetId>
 	for AsAssetType<AssetId, AssetType, AssetIdInfoGetter>
 where
 	AssetId: Clone,
-	AssetType: From<Location> + Into<Option<Location>> + Clone,
+	AssetType: From<LocationV3> + Into<Option<LocationV3>> + Clone,
 	AssetIdInfoGetter: AssetTypeGetter<AssetId, AssetType>,
 {
-	fn convert(id: &xcm::v4::Location) -> Option<AssetId> {
-		let v3_location =
-			xcm_builder::WithLatestLocationConverter::<xcm::v3::Location>::convert(id)?;
-		AssetIdInfoGetter::get_asset_id(v3_location.clone().into())
+	fn convert(id: &xcm::v5::Location) -> Option<AssetId> {
+		// Try to convert v5 Location to v3 via TryFrom if available
+		if let Ok(v3_location) = LocationV3::try_from(id.clone()) {
+			AssetIdInfoGetter::get_asset_id(v3_location.into())
+		} else {
+			None
+		}
 	}
-	fn convert_back(what: &AssetId) -> Option<xcm::v4::Location> {
-		let v3_location: Location =
+	fn convert_back(what: &AssetId) -> Option<xcm::v5::Location> {
+		let v3_location: LocationV3 =
 			AssetIdInfoGetter::get_asset_type(what.clone()).and_then(Into::into)?;
-		xcm_builder::WithLatestLocationConverter::convert_back(&v3_location)
+		v3_location.try_into().ok()
 	}
 }
 impl<AssetId, AssetType, AssetIdInfoGetter> ConvertLocation<AssetId>
 	for AsAssetType<AssetId, AssetType, AssetIdInfoGetter>
 where
 	AssetId: Clone,
-	AssetType: From<Location> + Into<Option<Location>> + Clone,
+	AssetType: From<LocationV3> + Into<Option<LocationV3>> + Clone,
 	AssetIdInfoGetter: AssetTypeGetter<AssetId, AssetType>,
 {
-	fn convert_location(id: &xcm::v4::Location) -> Option<AssetId> {
-		let v3_location =
-			xcm_builder::WithLatestLocationConverter::<xcm::v3::Location>::convert(id)?;
-		AssetIdInfoGetter::get_asset_id(v3_location.clone().into())
+	fn convert_location(id: &cumulus_primitives_core::Location) -> Option<AssetId> {
+		// cumulus_primitives_core::Location is the same as xcm::v5::Location
+		// Try to convert v5 Location to v3 via TryFrom if available
+		if let Ok(v3_location) = LocationV3::try_from(id.clone()) {
+			AssetIdInfoGetter::get_asset_id(v3_location.into())
+		} else {
+			None
+		}
 	}
 }
 

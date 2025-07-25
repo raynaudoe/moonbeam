@@ -38,7 +38,7 @@ use frame_support::weights::WeightToFee;
 use frame_system::pallet_prelude::*;
 use sp_runtime::traits::{Convert, Zero};
 use sp_std::vec::Vec;
-use xcm::v4::{Asset, AssetId as XcmAssetId, Error as XcmError, Fungibility, Location, XcmContext};
+use xcm::v5::{Asset, AssetId as XcmAssetId, Error as XcmError, Fungibility, Location, XcmContext};
 use xcm::{IntoVersion, VersionedAssetId};
 use xcm_executor::traits::{TransactAsset, WeightTrader};
 use xcm_runtime_apis::fees::Error as XcmPaymentApiError;
@@ -265,37 +265,43 @@ pub mod pallet {
 		pub fn query_acceptable_payment_assets(
 			xcm_version: xcm::Version,
 		) -> Result<Vec<VersionedAssetId>, XcmPaymentApiError> {
-			if !matches!(xcm_version, 3 | 4) {
+			if !matches!(xcm_version, 3 | 4 | 5) {
 				return Err(XcmPaymentApiError::UnhandledXcmVersion);
 			}
 
-			let v4_assets = [VersionedAssetId::V4(XcmAssetId::from(
+			let v5_assets = [VersionedAssetId::V5(XcmAssetId::from(
 				T::NativeLocation::get(),
 			))]
 			.into_iter()
 			.chain(
 				SupportedAssets::<T>::iter().filter_map(|(asset_location, (enabled, _))| {
-					enabled.then(|| VersionedAssetId::V4(XcmAssetId(asset_location)))
+					enabled.then(|| VersionedAssetId::V5(XcmAssetId(asset_location)))
 				}),
 			)
 			.collect::<Vec<_>>();
 
 			if xcm_version == 3 {
-				v4_assets
+				v5_assets
 					.into_iter()
-					.map(|v4_asset| v4_asset.into_version(3))
+					.map(|v5_asset| v5_asset.into_version(3))
+					.collect::<Result<_, _>>()
+					.map_err(|_| XcmPaymentApiError::VersionedConversionFailed)
+			} else if xcm_version == 4 {
+				v5_assets
+					.into_iter()
+					.map(|v5_asset| v5_asset.into_version(4))
 					.collect::<Result<_, _>>()
 					.map_err(|_| XcmPaymentApiError::VersionedConversionFailed)
 			} else {
-				Ok(v4_assets)
+				Ok(v5_assets)
 			}
 		}
 		pub fn query_weight_to_asset_fee(
 			weight: Weight,
 			asset: VersionedAssetId,
 		) -> Result<u128, XcmPaymentApiError> {
-			if let VersionedAssetId::V4(XcmAssetId(asset_location)) = asset
-				.into_version(4)
+			if let VersionedAssetId::V5(XcmAssetId(asset_location)) = asset
+				.into_version(5)
 				.map_err(|_| XcmPaymentApiError::VersionedConversionFailed)?
 			{
 				Trader::<T>::compute_amount_to_charge(&weight, &asset_location).map_err(|e| match e
@@ -352,7 +358,7 @@ impl<T: crate::Config> WeightTrader for Trader<T> {
 		&mut self,
 		weight: Weight,
 		payment: xcm_executor::AssetsInHolding,
-		context: &XcmContext,
+		context: &xcm::v5::XcmContext,
 	) -> Result<xcm_executor::AssetsInHolding, XcmError> {
 		log::trace!(
 			target: "xcm::weight",
@@ -405,7 +411,7 @@ impl<T: crate::Config> WeightTrader for Trader<T> {
 		}
 	}
 
-	fn refund_weight(&mut self, actual_weight: Weight, context: &XcmContext) -> Option<Asset> {
+	fn refund_weight(&mut self, actual_weight: Weight, context: &xcm::v5::XcmContext) -> Option<Asset> {
 		log::trace!(
 			target: "xcm-weight-trader",
 			"refund_weight weight: {:?}, context: {:?}, available weight: {:?}, asset: {:?}",
