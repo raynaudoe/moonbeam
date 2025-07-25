@@ -17,6 +17,7 @@
 use sp_runtime::traits::MaybeEquivalence;
 use sp_std::marker::PhantomData;
 use xcm::v3::Location as LocationV3;
+use xcm::v4::Location as LocationV4;
 use xcm::v5::Location;
 use xcm_executor::traits::ConvertLocation;
 
@@ -50,9 +51,13 @@ where
 	AssetIdInfoGetter: AssetTypeGetter<AssetId, AssetType>,
 {
 	fn convert(id: &xcm::v5::Location) -> Option<AssetId> {
-		// Try to convert v5 Location to v3 via TryFrom if available
-		if let Ok(v3_location) = LocationV3::try_from(id.clone()) {
-			AssetIdInfoGetter::get_asset_id(v3_location.into())
+		// Convert v5 Location to v3 via v4 as intermediate step
+		if let Ok(v4_location) = LocationV4::try_from(id.clone()) {
+			if let Ok(v3_location) = LocationV3::try_from(v4_location) {
+				AssetIdInfoGetter::get_asset_id(v3_location.into())
+			} else {
+				None
+			}
 		} else {
 			None
 		}
@@ -60,7 +65,12 @@ where
 	fn convert_back(what: &AssetId) -> Option<xcm::v5::Location> {
 		let v3_location: LocationV3 =
 			AssetIdInfoGetter::get_asset_type(what.clone()).and_then(Into::into)?;
-		v3_location.try_into().ok()
+		// Convert v3 Location to v5 via v4 as intermediate step
+		if let Ok(v4_location) = LocationV4::try_from(v3_location) {
+			v4_location.try_into().ok()
+		} else {
+			None
+		}
 	}
 }
 impl<AssetId, AssetType, AssetIdInfoGetter> ConvertLocation<AssetId>
@@ -72,9 +82,13 @@ where
 {
 	fn convert_location(id: &cumulus_primitives_core::Location) -> Option<AssetId> {
 		// cumulus_primitives_core::Location is the same as xcm::v5::Location
-		// Try to convert v5 Location to v3 via TryFrom if available
-		if let Ok(v3_location) = LocationV3::try_from(id.clone()) {
-			AssetIdInfoGetter::get_asset_id(v3_location.into())
+		// Convert v5 Location to v3 via v4 as intermediate step
+		if let Ok(v4_location) = LocationV4::try_from(id.clone()) {
+			if let Ok(v3_location) = LocationV3::try_from(v4_location) {
+				AssetIdInfoGetter::get_asset_id(v3_location.into())
+			} else {
+				None
+			}
 		} else {
 			None
 		}
