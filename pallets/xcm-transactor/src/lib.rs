@@ -1107,7 +1107,8 @@ pub mod pallet {
 			}
 			instructions.push(Transact {
 				origin_kind,
-				require_weight_at_most: dispatch_weight,
+				// PR #6778: require_weight_at_most replaced with fallback_max_weight in XCM V5
+				fallback_max_weight: Some(dispatch_weight),
 				call: call.into(),
 			});
 			Ok(Xcm(instructions))
