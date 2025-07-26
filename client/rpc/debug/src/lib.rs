@@ -22,7 +22,7 @@ use tokio::{
 	sync::{oneshot, Semaphore},
 };
 
-use ethereum_types::H256;
+use ethereum_types::{H160, H256};
 use fc_rpc::{frontier_backend_client, internal_err};
 use fc_storage::StorageOverride;
 use fp_rpc::EthereumRuntimeRPCApi;
@@ -929,7 +929,10 @@ where
 					Some(
 						access_list
 							.into_iter()
-							.map(|item| (item.address, item.storage_keys))
+							.map(|item| (
+								H160::from(item.address.0),
+								item.storage_keys.into_iter().map(|key| H256::from(key.0)).collect()
+							))
 							.collect(),
 					),
 				)
