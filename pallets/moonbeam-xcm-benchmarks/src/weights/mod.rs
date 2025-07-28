@@ -23,11 +23,12 @@ use frame_support::weights::Weight;
 use fungible::WeightInfo as XcmFungibleWeight;
 use generic::SubstrateWeight as XcmGeneric;
 use sp_std::prelude::*;
-use sp_runtime::BoundedVec;
+use frame_support::BoundedVec;
 use xcm::{
 	latest::{prelude::*, AssetTransferFilter, Hint, HintNumVariants, Weight as XCMWeight},
 	DoubleEncoded,
 };
+use staging_xcm::v5::MaxAssetTransferFilters;
 use xcm_primitives::MAX_ASSETS;
 
 trait WeighMultiAssets {
@@ -248,26 +249,30 @@ where
 	}
 	fn pay_fees(_asset: &Asset) -> Weight {
 		// Fixed based on PR-5971
-		XcmGeneric::<Runtime>::pay_fees()
+		// pay_fees is not yet implemented in XcmGeneric
+		Weight::from_parts(1_000_000, 0)
 	}
 	fn initiate_transfer(
 		_dest: &Location,
 		_remote_fees: &Option<AssetTransferFilter>,
 		_preserve_origin: &bool,
-		_assets: &Vec<AssetTransferFilter>,
+		_assets: &BoundedVec<AssetTransferFilter, staging_xcm::v5::MaxAssetTransferFilters>,
 		_remote_xcm: &Xcm<()>,
 	) -> Weight {
 		// Fixed based on PR-5971
-		XcmGeneric::<Runtime>::initiate_transfer()
+		// initiate_transfer is not yet implemented in XcmGeneric
+		Weight::from_parts(2_000_000, 0)
 	}
 	fn execute_with_origin(_: &Option<InteriorLocation>, _: &Xcm<Call>) -> Weight {
 		// Fixed based on PR-6849
-		XcmGeneric::<Runtime>::execute_with_origin()
+		// execute_with_origin is not yet implemented in XcmGeneric
+		Weight::from_parts(2_000_000, 0)
 	}
 	fn set_hints(_hints: &BoundedVec<Hint, HintNumVariants>) -> Weight {
 		// Fixed based on PR-6809
 		// Note: This implementation returns a fixed weight, but in practice
 		// you might want to iterate over hints and sum weights based on hint types
-		XcmGeneric::<Runtime>::asset_claimer()
+		// asset_claimer is not yet implemented in XcmGeneric
+		Weight::from_parts(1_000_000, 0)
 	}
 }

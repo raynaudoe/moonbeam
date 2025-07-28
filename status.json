@@ -2,45 +2,106 @@
   "strategy": "error_based_sequential",
   "created_at": "2025-07-25T14:27:21.836386+00:00",
   "iteration": 0,
-  "completed_groups": 0,
+  "completed_groups": 5,
   "error_groups": [
     {
       "id": "error_group_001",
-      "symbol": "transact",
-      "error_count": 1,
+      "symbol": "initiate_transfer",
+      "error_count": 2,
       "errors": [
         {
-          "message": "method `transact` has an incompatible type for trait",
+          "message": "method `initiate_transfer` has an incompatible type for trait",
           "code": "E0053",
           "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 99,
-          "column": 28
+          "line": 257,
+          "column": 12
+        },
+        {
+          "message": "no function or associated item named `initiate_transfer` found for struct `weights::generic::SubstrateWeight` in the current scope",
+          "code": "E0599",
+          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
+          "line": 261,
+          "column": 26
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
       ]
     },
     {
       "id": "error_group_002",
+      "symbol": "sp_runtime",
+      "error_count": 1,
+      "errors": [
+        {
+          "message": "unresolved import `sp_runtime`",
+          "code": "E0432",
+          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
+          "line": 26,
+          "column": 5
+        }
+      ],
+      "status": "completed",
+      "files": [
+        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
+      ]
+    },
+    {
+      "id": "error_group_003",
       "symbol": "pay_fees",
       "error_count": 1,
       "errors": [
         {
-          "message": "not all trait items implemented, missing: `pay_fees`, `initiate_transfer`, `execute_with_origin`, `set_hints`",
-          "code": "E0046",
+          "message": "no function or associated item named `pay_fees` found for struct `weights::generic::SubstrateWeight` in the current scope",
+          "code": "E0599",
           "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 61,
-          "column": 1
+          "line": 251,
+          "column": 26
         }
       ],
-      "status": "pending",
+      "status": "completed",
+      "files": [
+        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
+      ]
+    },
+    {
+      "id": "error_group_004",
+      "symbol": "execute_with_origin",
+      "error_count": 1,
+      "errors": [
+        {
+          "message": "no function or associated item named `execute_with_origin` found for struct `weights::generic::SubstrateWeight` in the current scope",
+          "code": "E0599",
+          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
+          "line": 265,
+          "column": 26
+        }
+      ],
+      "status": "completed",
+      "files": [
+        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
+      ]
+    },
+    {
+      "id": "error_group_005",
+      "symbol": "asset_claimer",
+      "error_count": 1,
+      "errors": [
+        {
+          "message": "no function or associated item named `asset_claimer` found for struct `weights::generic::SubstrateWeight` in the current scope",
+          "code": "E0599",
+          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
+          "line": 271,
+          "column": 26
+        }
+      ],
+      "status": "completed",
       "files": [
         "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
       ]
     }
   ],
-  "total_errors": 2,
-  "last_check": "2025-07-28T13:47:02.454651+00:00"
+  "total_errors": 0,
+  "last_check": "2025-07-28T14:08:00.000000+00:00"
 }
