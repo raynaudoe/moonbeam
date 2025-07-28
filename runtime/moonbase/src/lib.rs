@@ -290,6 +290,7 @@ impl frame_system::Config for Runtime {
 	type DbWeight = moonbase_weights::db::rocksdb::constants::RocksDbWeight;
 	type BaseCallFilter = MaintenanceMode;
 	type SystemWeightInfo = moonbase_weights::frame_system::WeightInfo<Runtime>;
+	type ExtensionsWeightInfo = moonbase_weights::frame_system_extensions::WeightInfo<Runtime>;
 	/// This is used as an identifier of the chain. 42 is the generic substrate prefix.
 	type SS58Prefix = ConstU16<1287>;
 	type OnSetCode = cumulus_pallet_parachain_system::ParachainSetCode<Self>;
@@ -341,6 +342,7 @@ impl pallet_balances::Config for Runtime {
 	type MaxFreezes = ConstU32<0>;
 	type RuntimeHoldReason = RuntimeHoldReason;
 	type RuntimeFreezeReason = RuntimeFreezeReason;
+	type DoneSlashHandler = ();
 	type WeightInfo = moonbase_weights::pallet_balances::WeightInfo<Runtime>;
 }
 
@@ -379,6 +381,7 @@ impl pallet_transaction_payment::Config for Runtime {
 	type WeightToFee = ConstantMultiplier<Balance, ConstU128<{ currency::WEIGHT_FEE }>>;
 	type LengthToFee = LengthToFee;
 	type FeeMultiplierUpdate = FastAdjustingFeeUpdate<Runtime>;
+	type WeightInfo = moonbase_weights::pallet_transaction_payment::WeightInfo<Runtime>;
 }
 
 impl pallet_sudo::Config for Runtime {
@@ -598,6 +601,7 @@ impl pallet_treasury::Config for Runtime {
 	type Paymaster = PayFromAccount<Balances, TreasuryAccount>;
 	type BalanceConverter = UnityAssetBalanceConversion;
 	type PayoutPeriod = ConstU32<{ 30 * DAYS }>;
+	type BlockNumberProvider = System;
 	#[cfg(feature = "runtime-benchmarks")]
 	type BenchmarkHelper = BenchmarkHelper;
 }
@@ -607,6 +611,8 @@ parameter_types! {
 	pub const MaxAdditionalFields: u32 = 100;
 	pub const MaxRegistrars: u32 = 20;
 	pub const PendingUsernameExpiration: u32 = 7 * DAYS;
+	pub const UsernameDeposit: Balance = currency::deposit(0, 32);
+	pub const UsernameGracePeriod: u32 = 3 * DAYS;
 	pub const MaxSuffixLength: u32 = 7;
 	pub const MaxUsernameLength: u32 = 32;
 }
@@ -623,6 +629,7 @@ impl pallet_identity::Config for Runtime {
 	type BasicDeposit = ConstU128<{ currency::deposit(1, 258) }>;
 	// Does not add any item to the storage but takes 1 bytes
 	type ByteDeposit = ConstU128<{ currency::deposit(0, 1) }>;
+	type UsernameDeposit = UsernameDeposit;
 	// Add one item in storage and take 53 bytes
 	type SubAccountDeposit = ConstU128<{ currency::deposit(1, 53) }>;
 	type MaxSubAccounts = MaxSubAccounts;
@@ -635,6 +642,7 @@ impl pallet_identity::Config for Runtime {
 	type SigningPublicKey = <Signature as sp_runtime::traits::Verify>::Signer;
 	type UsernameAuthorityOrigin = EnsureRoot<AccountId>;
 	type PendingUsernameExpiration = PendingUsernameExpiration;
+	type UsernameGracePeriod = UsernameGracePeriod;
 	type MaxSuffixLength = MaxSuffixLength;
 	type MaxUsernameLength = MaxUsernameLength;
 	type WeightInfo = moonbase_weights::pallet_identity::WeightInfo<Runtime>;

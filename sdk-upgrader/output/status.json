@@ -4,78 +4,64 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 6,
+  "iteration": 8,
   "error_groups": [
     {
-      "id": "error_group_sp_runtime_format",
-      "symbol": "sp_runtime::format",
-      "error_count": 7,
+      "id": "error_group_missing_config_types",
+      "symbol": "Config trait implementations",
+      "error_count": 15,
       "errors": [
         {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 194,
-          "column": 53
+          "message": "not all trait items implemented, missing: ExtensionsWeightInfo",
+          "code": "E0046",
+          "file": "runtime/moonbase/src/lib.rs",
+          "line": 257,
+          "column": 1
         },
         {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 244,
-          "column": 53
+          "message": "not all trait items implemented, missing: DoneSlashHandler",
+          "code": "E0046",
+          "file": "runtime/moonbase/src/lib.rs",
+          "line": 329,
+          "column": 1
         },
         {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 302,
-          "column": 52
+          "message": "not all trait items implemented, missing: WeightInfo",
+          "code": "E0046",
+          "file": "runtime/moonbase/src/lib.rs",
+          "line": 369,
+          "column": 1
         },
         {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 351,
-          "column": 52
+          "message": "not all trait items implemented, missing: BlockNumberProvider",
+          "code": "E0046",
+          "file": "runtime/moonbase/src/lib.rs",
+          "line": 581,
+          "column": 1
         },
         {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 462,
-          "column": 41
-        },
-        {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 463,
-          "column": 41
-        },
-        {
-          "message": "failed to resolve: could not find `format` in `sp_runtime`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 488,
-          "column": 29
+          "message": "not all trait items implemented, missing: UsernameDeposit, UsernameGracePeriod",
+          "code": "E0046",
+          "file": "runtime/moonbase/src/lib.rs",
+          "line": 619,
+          "column": 1
         }
       ],
       "status": "completed",
       "files": [
-        "pallets/moonbeam-foreign-assets/src/evm.rs"
+        "runtime/moonbase/src/lib.rs"
       ]
     }
   ],
-  "completed_groups": 1,
+  "completed_groups": 0,
   "final_check": {
-    "error_count": 7,
+    "error_count": 51,
     "iteration": 5,
     "can_retry": true
   },
   "test_phase": {
     "started_at": "2025-07-23T13:24:22Z",
-    "iteration": 5,
+    "iteration": 6,
     "test_groups": []
   }
 }
