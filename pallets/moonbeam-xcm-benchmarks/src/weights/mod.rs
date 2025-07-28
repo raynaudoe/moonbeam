@@ -28,7 +28,7 @@ use xcm::{
 	latest::{prelude::*, AssetTransferFilter, Hint, HintNumVariants, Weight as XCMWeight},
 	DoubleEncoded,
 };
-use staging_xcm::v5::MaxAssetTransferFilters;
+use xcm::v5::MaxAssetTransferFilters;
 use xcm_primitives::MAX_ASSETS;
 
 trait WeighMultiAssets {
@@ -256,7 +256,7 @@ where
 		_dest: &Location,
 		_remote_fees: &Option<AssetTransferFilter>,
 		_preserve_origin: &bool,
-		_assets: &BoundedVec<AssetTransferFilter, staging_xcm::v5::MaxAssetTransferFilters>,
+		_assets: &BoundedVec<AssetTransferFilter, xcm::v5::MaxAssetTransferFilters>,
 		_remote_xcm: &Xcm<()>,
 	) -> Weight {
 		// Fixed based on PR-5971

@@ -3,7 +3,7 @@
   "created_at": "2025-07-25T00:00:00Z",
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
-  "iteration": 18,
+  "iteration": 19,
   "error_groups": [
     {
       "id": "error_group_001",
@@ -198,7 +198,7 @@
       ],
       "errors_fixed": 1,
       "errors_remaining": 0,
-      "fix_confidence": 1.0,
+      "fix_confidence": 1,
       "scout_prs_used": []
     },
     {
@@ -214,9 +214,15 @@
           "column": 26
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
+      ],
+      "errors_fixed": 1,
+      "errors_remaining": 0,
+      "fix_confidence": 1,
+      "scout_prs_used": [
+        "PR-5971"
       ]
     },
     {
@@ -232,9 +238,15 @@
           "column": 26
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
+      ],
+      "errors_fixed": 1,
+      "errors_remaining": 0,
+      "fix_confidence": 1,
+      "scout_prs_used": [
+        "PR-6849"
       ]
     },
     {
@@ -250,21 +262,52 @@
           "column": 26
         }
       ],
+      "status": "completed",
+      "files": [
+        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
+      ],
+      "errors_fixed": 1,
+      "errors_remaining": 0,
+      "fix_confidence": 1,
+      "scout_prs_used": [
+        "PR-6809"
+      ]
+    },
+    {
+      "id": "error_group_012",
+      "symbol": "staging_xcm",
+      "error_count": 2,
+      "errors": [
+        {
+          "message": "failed to resolve: use of undeclared crate or module `staging_xcm`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
+          "line": 31,
+          "column": 5
+        },
+        {
+          "message": "failed to resolve: use of undeclared crate or module `staging_xcm`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
+          "line": 259,
+          "column": 45
+        }
+      ],
       "status": "pending",
       "files": [
         "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
       ]
     }
   ],
-  "completed_groups": 8,
+  "completed_groups": 12,
   "build_iteration": 10,
   "final_check": {
     "error_count": 184,
     "iteration": 10,
     "can_retry": true
   },
-  "current_error_count": 6,
-  "current_group_count": 11,
+  "current_error_count": 2,
+  "current_group_count": 12,
   "total_errors": 7,
   "last_check": "2025-07-26T03:48:52.850064+00:00"
 }
