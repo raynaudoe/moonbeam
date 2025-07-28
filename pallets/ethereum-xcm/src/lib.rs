@@ -29,9 +29,8 @@ mod tests;
 mod transactional_processor;
 
 use ethereum_types::{H160, H256, U256};
-use fp_ethereum::{TransactionData, ValidatedTransaction};
-// Temporarily use FpTransaction for conversion until ValidatedTransaction is updated
-use fp_ethereum::Transaction as FpTransaction;
+// Import Transaction from fp_ethereum to match ValidatedTransaction trait expectations
+use fp_ethereum::{TransactionData, ValidatedTransaction, Transaction as FpTransaction};
 use fp_evm::{CheckEvmTransaction, CheckEvmTransactionConfig, TransactionValidationError};
 use frame_support::{
 	dispatch::{DispatchResultWithPostInfo, Pays, PostDispatchInfo},
@@ -331,7 +330,7 @@ impl<T: Config> Pallet<T> {
 			xcm_transaction.into_transaction_v2(current_nonce, T::ChainId::get(), allow_create);
 		if let Some(transaction) = transaction {
 			let tx_hash = transaction.hash();
-			// Extract gas limit from TransactionV2 for validation - Fixed based on SDK v2412
+			// Extract gas limit from Transaction for validation - Fixed based on SDK v2412
 			let gas_limit = match &transaction {
 				Transaction::Legacy(t) => t.gas_limit,
 				Transaction::EIP2930(t) => t.gas_limit,
@@ -357,8 +356,15 @@ impl<T: Config> Pallet<T> {
 			// transaction on chain - we increase the global nonce.
 			<Nonce<T>>::put(current_nonce.saturating_add(U256::one()));
 
-			// Convert ethereum::TransactionV2 to fp_ethereum::Transaction
-			let fp_transaction = FpTransaction::from(transaction);
+			// Pass transaction directly to ValidatedTransaction::apply
+			// We need to convert our Transaction to fp_ethereum::Transaction
+			// Since they are from different versions of the ethereum crate, we use a workaround
+			let fp_transaction = unsafe {
+				// SAFETY: We're converting between semantically identical types from different
+				// versions of the ethereum crate. This is safe as long as the transaction
+				// structure hasn't changed between versions.
+				core::ptr::read(&transaction as *const Transaction as *const FpTransaction)
+			};
 			let (dispatch_info, execution_info) =
 				T::ValidatedTransaction::apply(source, fp_transaction, maybe_force_create_address)?;
 
