@@ -26,7 +26,7 @@ use precompile_utils::solidity::Codec;
 use precompile_utils_macro::keccak256;
 use sp_runtime::traits::ConstU32;
 use sp_runtime::{DispatchError, SaturatedConversion};
-use sp_std::vec::Vec;
+use sp_std::{format, vec::Vec};
 use xcm::latest::Error as XcmError;
 
 const ERC20_CALL_MAX_CALLDATA_SIZE: usize = 4 + 32 + 32; // selector + address + uint256

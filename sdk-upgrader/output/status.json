@@ -1,313 +1,81 @@
 {
   "strategy": "error_based_sequential",
-  "created_at": "2025-07-25T00:00:00Z",
+  "created_at": "2025-07-23T00:00:00Z",
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
-  "iteration": 19,
+  "sdk_branch": "stable2412",
+  "iteration": 6,
   "error_groups": [
     {
-      "id": "error_group_001",
-      "symbol": "From<EthereumTransaction>",
-      "error_count": 2,
+      "id": "error_group_format_macro",
+      "symbol": "format",
+      "error_count": 7,
       "errors": [
         {
-          "message": "the trait bound `TransactionV2: From<EthereumTransaction>` is not satisfied",
-          "code": "E0277",
-          "file": "client/rpc/debug/src/lib.rs",
-          "line": 683,
-          "column": 55
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 488,
+          "column": 17
         },
         {
-          "message": "the trait bound `TransactionV2: From<EthereumTransaction>` is not satisfied",
-          "code": "E0277",
-          "file": "client/rpc/debug/src/lib.rs",
-          "line": 691,
-          "column": 55
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "client/rpc/debug/src/lib.rs"
-      ],
-      "errors_fixed": 2,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_002",
-      "symbol": "Transaction: From<TransactionV2>",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "the trait bound `fp_ethereum::Transaction: From<TransactionV2>` is not satisfied",
-          "code": "E0277",
-          "file": "pallets/ethereum-xcm/src/lib.rs",
-          "line": 361,
-          "column": 25
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/ethereum-xcm/src/lib.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 0.8,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_003",
-      "symbol": "unknown",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "mismatched types",
-          "code": "E0308",
-          "file": "client/rpc/debug/src/lib.rs",
-          "line": 648,
-          "column": 54
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "client/rpc/debug/src/lib.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_004",
-      "symbol": "from_slice",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "no function or associated item named `from_slice` found for struct `ethereum_types::U256` in the current scope",
-          "code": "E0599",
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
           "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 479,
-          "column": 26
+          "line": 463,
+          "column": 29
+        },
+        {
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 462,
+          "column": 29
+        },
+        {
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 351,
+          "column": 40
+        },
+        {
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 302,
+          "column": 40
+        },
+        {
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 244,
+          "column": 41
+        },
+        {
+          "message": "cannot find macro `format` in this scope",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 194,
+          "column": 41
         }
       ],
       "status": "completed",
       "files": [
         "pallets/moonbeam-foreign-assets/src/evm.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_005",
-      "symbol": "transact",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "method `transact` has an incompatible type for trait",
-          "code": "E0053",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 99,
-          "column": 28
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_006",
-      "symbol": "pay_fees",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "not all trait items implemented, missing: `pay_fees`, `initiate_transfer`, `execute_with_origin`, `set_hints`",
-          "code": "E0046",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 61,
-          "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": [
-        "PR-5971",
-        "PR-6809",
-        "PR-6849"
-      ]
-    },
-    {
-      "id": "error_group_007",
-      "symbol": "initiate_transfer",
-      "error_count": 2,
-      "errors": [
-        {
-          "message": "method `initiate_transfer` has an incompatible type for trait",
-          "code": "E0053",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 257,
-          "column": 12
-        },
-        {
-          "message": "no function or associated item named `initiate_transfer` found for struct `weights::generic::SubstrateWeight` in the current scope",
-          "code": "E0599",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 261,
-          "column": 26
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 2,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": [
-        "PR-4826"
-      ]
-    },
-    {
-      "id": "error_group_008",
-      "symbol": "sp_runtime",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "unresolved import `sp_runtime`",
-          "code": "E0432",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 26,
-          "column": 5
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 1,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_009",
-      "symbol": "pay_fees",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "no function or associated item named `pay_fees` found for struct `weights::generic::SubstrateWeight` in the current scope",
-          "code": "E0599",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 251,
-          "column": 26
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 1,
-      "scout_prs_used": [
-        "PR-5971"
-      ]
-    },
-    {
-      "id": "error_group_010",
-      "symbol": "execute_with_origin",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "no function or associated item named `execute_with_origin` found for struct `weights::generic::SubstrateWeight` in the current scope",
-          "code": "E0599",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 265,
-          "column": 26
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 1,
-      "scout_prs_used": [
-        "PR-6849"
-      ]
-    },
-    {
-      "id": "error_group_011",
-      "symbol": "asset_claimer",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "no function or associated item named `asset_claimer` found for struct `weights::generic::SubstrateWeight` in the current scope",
-          "code": "E0599",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 271,
-          "column": 26
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 1,
-      "scout_prs_used": [
-        "PR-6809"
-      ]
-    },
-    {
-      "id": "error_group_012",
-      "symbol": "staging_xcm",
-      "error_count": 2,
-      "errors": [
-        {
-          "message": "failed to resolve: use of undeclared crate or module `staging_xcm`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 31,
-          "column": 5
-        },
-        {
-          "message": "failed to resolve: use of undeclared crate or module `staging_xcm`",
-          "code": "E0433",
-          "file": "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs",
-          "line": 259,
-          "column": 45
-        }
-      ],
-      "status": "pending",
-      "files": [
-        "pallets/moonbeam-xcm-benchmarks/src/weights/mod.rs"
       ]
     }
   ],
-  "completed_groups": 12,
-  "build_iteration": 10,
+  "completed_groups": 1,
   "final_check": {
-    "error_count": 184,
-    "iteration": 10,
+    "error_count": 7,
+    "iteration": 5,
     "can_retry": true
   },
-  "current_error_count": 2,
-  "current_group_count": 12,
-  "total_errors": 7,
-  "last_check": "2025-07-26T03:48:52.850064+00:00"
+  "test_phase": {
+    "started_at": "2025-07-23T13:24:22Z",
+    "iteration": 5,
+    "test_groups": []
+  }
 }
