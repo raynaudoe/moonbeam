@@ -642,6 +642,9 @@ where
 		if let Some(block) = reference_block {
 			let transactions = block.transactions;
 			if let Some(transaction) = transactions.get(index) {
+				// SAFETY: pallet_ethereum::Transaction and ethereum::TransactionV2 are the same type
+				// but imported differently. This is a temporary fix for the type mismatch.
+				let transaction: &TransactionV2 = unsafe { std::mem::transmute(transaction) };
 				let f = || -> RpcResult<_> {
 					let result = if trace_api_version >= 5 {
 						// The block is initialized inside "trace_transaction"
