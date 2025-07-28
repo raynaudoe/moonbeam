@@ -24,6 +24,9 @@ use sp_runtime::traits::ConstU32;
 use sp_runtime::BoundedVec;
 use xcm::latest::prelude::*;
 
+extern crate alloc;
+use alloc::format;
+
 fn location_of(n: u128) -> Location {
 	Location::new(0, [Junction::GeneralIndex(n)])
 }
@@ -43,8 +46,8 @@ mod benchmarks {
 		let max_assets = T::MaxForeignAssets::get() as u128;
 
 		for i in 1..max_assets {
-			let symbol = sp_runtime::format!("MT{}", i);
-			let name = sp_runtime::format!("Mytoken{}", i);
+			let symbol = format!("MT{}", i);
+			let name = format!("Mytoken{}", i);
 			Pallet::<T>::create_foreign_asset(
 				RawOrigin::Root.into(),
 				i,
@@ -56,8 +59,8 @@ mod benchmarks {
 		}
 
 		let asset_id = max_assets;
-		let symbol = sp_runtime::format!("MT{}", asset_id);
-		let name = sp_runtime::format!("Mytoken{}", asset_id);
+		let symbol = format!("MT{}", asset_id);
+		let name = format!("Mytoken{}", asset_id);
 
 		#[extrinsic_call]
 		_(
@@ -81,8 +84,8 @@ mod benchmarks {
 	fn change_xcm_location() -> Result<(), BenchmarkError> {
 		let max_assets = T::MaxForeignAssets::get() as u128;
 		for i in 1..=max_assets {
-			let symbol = sp_runtime::format!("MT{}", i);
-			let name = sp_runtime::format!("Mytoken{}", i);
+			let symbol = format!("MT{}", i);
+			let name = format!("Mytoken{}", i);
 			Pallet::<T>::create_foreign_asset(
 				RawOrigin::Root.into(),
 				i,
@@ -107,8 +110,8 @@ mod benchmarks {
 	fn freeze_foreign_asset() -> Result<(), BenchmarkError> {
 		let max_assets = T::MaxForeignAssets::get() as u128;
 		for i in 1..=max_assets {
-			let symbol = sp_runtime::format!("MT{}", i);
-			let name = sp_runtime::format!("Mytoken{}", i);
+			let symbol = format!("MT{}", i);
+			let name = format!("Mytoken{}", i);
 			Pallet::<T>::create_foreign_asset(
 				RawOrigin::Root.into(),
 				i,
@@ -136,8 +139,8 @@ mod benchmarks {
 	fn unfreeze_foreign_asset() -> Result<(), BenchmarkError> {
 		let max_assets = T::MaxForeignAssets::get() as u128;
 		for i in 1..=max_assets {
-			let symbol = sp_runtime::format!("MT{}", i);
-			let name = sp_runtime::format!("Mytoken{}", i);
+			let symbol = format!("MT{}", i);
+			let name = format!("Mytoken{}", i);
 			Pallet::<T>::create_foreign_asset(
 				RawOrigin::Root.into(),
 				i,

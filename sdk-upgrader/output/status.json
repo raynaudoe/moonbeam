@@ -7,58 +7,58 @@
   "iteration": 6,
   "error_groups": [
     {
-      "id": "error_group_format_macro",
-      "symbol": "format",
+      "id": "error_group_sp_runtime_format",
+      "symbol": "sp_runtime::format",
       "error_count": 7,
       "errors": [
         {
-          "message": "cannot find macro `format` in this scope",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 488,
-          "column": 17
-        },
-        {
-          "message": "cannot find macro `format` in this scope",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 463,
-          "column": 29
-        },
-        {
-          "message": "cannot find macro `format` in this scope",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 462,
-          "column": 29
-        },
-        {
-          "message": "cannot find macro `format` in this scope",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 351,
-          "column": 40
-        },
-        {
-          "message": "cannot find macro `format` in this scope",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 302,
-          "column": 40
-        },
-        {
-          "message": "cannot find macro `format` in this scope",
-          "code": "E0433",
-          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
-          "line": 244,
-          "column": 41
-        },
-        {
-          "message": "cannot find macro `format` in this scope",
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
           "code": "E0433",
           "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
           "line": 194,
+          "column": 53
+        },
+        {
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 244,
+          "column": 53
+        },
+        {
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 302,
+          "column": 52
+        },
+        {
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 351,
+          "column": 52
+        },
+        {
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 462,
           "column": 41
+        },
+        {
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 463,
+          "column": 41
+        },
+        {
+          "message": "failed to resolve: could not find `format` in `sp_runtime`",
+          "code": "E0433",
+          "file": "pallets/moonbeam-foreign-assets/src/evm.rs",
+          "line": 488,
+          "column": 29
         }
       ],
       "status": "completed",
