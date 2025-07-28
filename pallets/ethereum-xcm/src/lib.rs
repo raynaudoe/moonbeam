@@ -357,11 +357,10 @@ impl<T: Config> Pallet<T> {
 			// transaction on chain - we increase the global nonce.
 			<Nonce<T>>::put(current_nonce.saturating_add(U256::one()));
 
-			// The apply function expects fp_ethereum::Transaction but we have ethereum::TransactionV2
-			// For now, we'll pass the transaction as-is and let the compiler tell us if there's a type mismatch
-			// This might work if fp_ethereum::Transaction is a re-export of ethereum::TransactionV2
+			// Convert ethereum::TransactionV2 to fp_ethereum::Transaction
+			let fp_transaction = FpTransaction::from(transaction);
 			let (dispatch_info, execution_info) =
-				T::ValidatedTransaction::apply(source, transaction, maybe_force_create_address)?;
+				T::ValidatedTransaction::apply(source, fp_transaction, maybe_force_create_address)?;
 
 			// If the transaction reverted, signal it to XCM Transactional Processor
 			match execution_info {

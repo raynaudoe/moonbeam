@@ -23,6 +23,7 @@ use tokio::{
 };
 
 use ethereum_types::{H160, H256};
+use ethereum::TransactionV2;
 use fc_rpc::{frontier_backend_client, internal_err};
 use fc_storage::StorageOverride;
 use fp_rpc::EthereumRuntimeRPCApi;
@@ -678,6 +679,7 @@ where
 						if trace_api_version == 4 {
 							// Pre pallet-message-queue
 							#[allow(deprecated)]
+							// transaction is already TransactionV2 from BlockV2
 							api.trace_transaction_before_version_5(
 								parent_block_hash,
 								exts,
@@ -685,14 +687,15 @@ where
 							)
 						} else {
 							// Pre-london update, legacy transactions.
-							match &**transaction {
-								ethereum::TransactionV2::Legacy(tx) =>
+							// transaction is already TransactionV2 from BlockV2
+							match transaction {
+								TransactionV2::Legacy(tx) =>
 								{
 									#[allow(deprecated)]
 									api.trace_transaction_before_version_4(
 										parent_block_hash,
 										exts,
-										&tx,
+										tx,
 									)
 								}
 								_ => {

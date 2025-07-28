@@ -29,6 +29,7 @@ use sp_std::{boxed::Box, convert::TryInto, marker::PhantomData, vec::Vec};
 use sp_weights::Weight;
 use xcm::{
 	latest::{Asset, AssetId, Assets, Fungibility, Location, WeightLimit},
+	v4,
 	VersionedAssets, VersionedLocation,
 };
 use xcm_primitives::{
@@ -100,9 +101,16 @@ where
 			.ok_or_else(|| RevertReason::custom("Invalid destination").in_field("destination"))?;
 
 		let call = pallet_xcm::Call::<Runtime>::transfer_assets {
-			dest: Box::new(VersionedLocation::V4(chain_part)),
-			beneficiary: Box::new(VersionedLocation::V4(beneficiary)),
-			assets: Box::new(VersionedAssets::V4(asset.into())),
+			dest: Box::new(VersionedLocation::V4(
+				chain_part.try_into().map_err(|_| revert("Failed to convert destination to V4"))?
+			)),
+			beneficiary: Box::new(VersionedLocation::V4(
+				beneficiary.try_into().map_err(|_| revert("Failed to convert beneficiary to V4"))?
+			)),
+			assets: Box::new(VersionedAssets::V4(
+				v4::Assets::try_from(Assets::from(asset))
+					.map_err(|_| revert("Failed to convert assets to V4"))?
+			)),
 			fee_asset_item: 0,
 			weight_limit: dest_weight_limit,
 		};
@@ -161,9 +169,16 @@ where
 			.ok_or_else(|| RevertReason::custom("Invalid destination").in_field("destination"))?;
 
 		let call = pallet_xcm::Call::<Runtime>::transfer_assets {
-			dest: Box::new(VersionedLocation::V4(chain_part)),
-			beneficiary: Box::new(VersionedLocation::V4(beneficiary)),
-			assets: Box::new(VersionedAssets::V4(asset.into())),
+			dest: Box::new(VersionedLocation::V4(
+				chain_part.try_into().map_err(|_| revert("Failed to convert destination to V4"))?
+			)),
+			beneficiary: Box::new(VersionedLocation::V4(
+				beneficiary.try_into().map_err(|_| revert("Failed to convert beneficiary to V4"))?
+			)),
+			assets: Box::new(VersionedAssets::V4(
+				v4::Assets::try_from(Assets::from(asset))
+					.map_err(|_| revert("Failed to convert assets to V4"))?
+			)),
 			fee_asset_item: 0,
 			weight_limit: dest_weight_limit,
 		};
@@ -202,14 +217,18 @@ where
 			.ok_or_else(|| RevertReason::custom("Invalid destination").in_field("destination"))?;
 
 		let call = pallet_xcm::Call::<Runtime>::transfer_assets {
-			dest: Box::new(VersionedLocation::V4(chain_part)),
-			beneficiary: Box::new(VersionedLocation::V4(beneficiary)),
+			dest: Box::new(VersionedLocation::V4(
+				chain_part.try_into().map_err(|_| revert("Failed to convert destination to V4"))?
+			)),
+			beneficiary: Box::new(VersionedLocation::V4(
+				beneficiary.try_into().map_err(|_| revert("Failed to convert beneficiary to V4"))?
+			)),
 			assets: Box::new(VersionedAssets::V4(
-				Asset {
+				v4::Assets::try_from(Assets::from(Asset {
 					id: AssetId(asset),
 					fun: Fungibility::Fungible(to_balance),
-				}
-				.into(),
+				}))
+				.map_err(|_| revert("Failed to convert assets to V4"))?
 			)),
 			fee_asset_item: 0,
 			weight_limit: dest_weight_limit,
@@ -254,14 +273,18 @@ where
 			.ok_or_else(|| RevertReason::custom("Invalid destination").in_field("destination"))?;
 
 		let call = pallet_xcm::Call::<Runtime>::transfer_assets {
-			dest: Box::new(VersionedLocation::V4(chain_part)),
-			beneficiary: Box::new(VersionedLocation::V4(beneficiary)),
+			dest: Box::new(VersionedLocation::V4(
+				chain_part.try_into().map_err(|_| revert("Failed to convert destination to V4"))?
+			)),
+			beneficiary: Box::new(VersionedLocation::V4(
+				beneficiary.try_into().map_err(|_| revert("Failed to convert beneficiary to V4"))?
+			)),
 			assets: Box::new(VersionedAssets::V4(
-				Asset {
+				v4::Assets::try_from(Assets::from(Asset {
 					id: AssetId(asset.clone()),
 					fun: Fungibility::Fungible(amount),
-				}
-				.into(),
+				}))
+				.map_err(|_| revert("Failed to convert assets to V4"))?
 			)),
 			fee_asset_item: 0,
 			weight_limit: dest_weight_limit,
@@ -333,9 +356,16 @@ where
 			.ok_or_else(|| RevertReason::custom("Invalid destination").in_field("destination"))?;
 
 		let call = pallet_xcm::Call::<Runtime>::transfer_assets {
-			dest: Box::new(VersionedLocation::V4(chain_part)),
-			beneficiary: Box::new(VersionedLocation::V4(beneficiary)),
-			assets: Box::new(VersionedAssets::V4(assets.into())),
+			dest: Box::new(VersionedLocation::V4(
+				chain_part.try_into().map_err(|_| revert("Failed to convert destination to V4"))?
+			)),
+			beneficiary: Box::new(VersionedLocation::V4(
+				beneficiary.try_into().map_err(|_| revert("Failed to convert beneficiary to V4"))?
+			)),
+			assets: Box::new(VersionedAssets::V4(
+				v4::Assets::try_from(Assets::from(assets))
+					.map_err(|_| revert("Failed to convert assets to V4"))?
+			)),
 			fee_asset_item: fee_item,
 			weight_limit: dest_weight_limit,
 		};
@@ -396,9 +426,16 @@ where
 			.ok_or_else(|| RevertReason::custom("Invalid destination").in_field("destination"))?;
 
 		let call = pallet_xcm::Call::<Runtime>::transfer_assets {
-			dest: Box::new(VersionedLocation::V4(chain_part)),
-			beneficiary: Box::new(VersionedLocation::V4(beneficiary)),
-			assets: Box::new(VersionedAssets::V4(assets)),
+			dest: Box::new(VersionedLocation::V4(
+				chain_part.try_into().map_err(|_| revert("Failed to convert destination to V4"))?
+			)),
+			beneficiary: Box::new(VersionedLocation::V4(
+				beneficiary.try_into().map_err(|_| revert("Failed to convert beneficiary to V4"))?
+			)),
+			assets: Box::new(VersionedAssets::V4(
+				v4::Assets::try_from(Assets::from(assets))
+					.map_err(|_| revert("Failed to convert assets to V4"))?
+			)),
 			fee_asset_item: fee_item,
 			weight_limit: dest_weight_limit,
 		};
