@@ -476,7 +476,7 @@ fn extract_revert_message(data: &[u8]) -> String {
 		return BASE_MESSAGE.into();
 	}
 	// Extract message length and calculate end position
-	let message_len = U256::from_slice(&data[LEN_START..MESSAGE_START]).saturated_into::<usize>();
+	let message_len = U256::from_big_endian(&data[LEN_START..MESSAGE_START]).saturated_into::<usize>();
 	let message_end = MESSAGE_START.saturating_add(message_len);
 	// Return base message if data is shorter than expected message end
 	if data.len() < message_end {
