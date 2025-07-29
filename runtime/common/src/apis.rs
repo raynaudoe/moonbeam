@@ -449,8 +449,7 @@ macro_rules! impl_runtime_apis_plus_common {
 				}
 
 				fn storage_at(address: H160, index: U256) -> H256 {
-					let mut tmp = [0u8; 32];
-					index.to_big_endian(&mut tmp);
+					let tmp = index.to_big_endian();
 					pallet_evm::AccountStorages::<Runtime>::get(address, H256::from_slice(&tmp[..]))
 				}
 

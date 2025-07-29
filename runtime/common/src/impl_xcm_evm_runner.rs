@@ -102,7 +102,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				} else {
 					let xcm_transaction = EthereumXcmTransaction::V2(EthereumXcmTransactionV2 {
 						gas_limit: gas_limit.into(),
-						action: pallet_ethereum_xcm::TransactionAction::Call(ethereum_types::H160::from(target.0)),
+						action: pallet_ethereum_xcm::TransactionAction::Call(target),
 						value,
 						input: input.try_into().map_err(|_| RunnerError {
 							error: DispatchError::Exhausted,

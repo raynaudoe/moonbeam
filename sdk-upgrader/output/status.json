@@ -17,7 +17,7 @@
         "runtime/moonbase/src/lib.rs"
       ],
       "primary_error": "mismatched types - different versions of ethereum crate transaction types",
-      "status": "fixed"
+      "status": "completed"
     },
     {
       "id": "h256_u256_methods",
@@ -33,7 +33,7 @@
       "status": "pending"
     }
   ],
-  "completed_groups": 0,
+  "completed_groups": 1,
   "final_check": {
     "error_count": 43,
     "iteration": 18,
