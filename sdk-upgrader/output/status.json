@@ -7,103 +7,27 @@
   "iteration": 18,
   "error_groups": [
     {
-      "id": "error_group_h160_h256_duplicate",
-      "symbol": "H160_H256_duplicate",
-      "error_count": 6,
-      "errors": [
-        {
-          "message": "the name `H160` is defined multiple times",
-          "code": "E0252",
-          "file": "runtime/moonbeam/src/xcm_config.rs",
-          "line": 264,
-          "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbase/src/xcm_config.rs",
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs"
-      ],
-      "completed_at": "2025-07-29T12:48:45.699945Z",
-      "errors_fixed": 6,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": [],
-      "fix_notes": "Removed duplicate H160, H256 imports - macro already imports them"
-    },
-    {
-      "id": "error_group_authorization_list_revert",
-      "symbol": "authorization_list_revert",
-      "error_count": 12,
-      "errors": [
-        {
-          "message": "method `call` has an incompatible type for trait",
-          "code": "E0053",
-          "file": "runtime/moonbeam/src/xcm_config.rs",
-          "line": 264,
-          "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbase/src/xcm_config.rs",
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs"
-      ],
-      "completed_at": "2025-07-29T13:00:00Z",
-      "errors_fixed": 12,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": [],
-      "fix_notes": "Changed authorization_list parameter type from tuple to AuthorizationListItem in impl_xcm_evm_runner.rs"
-    },
-    {
-      "id": "error_group_h160_mismatch_ethereum",
-      "symbol": "h160_mismatch_ethereum",
+      "id": "error_group_primitive_types_import",
+      "symbol": "primitive_types_import",
       "error_count": 3,
       "errors": [
         {
-          "message": "mismatched types",
-          "code": "E0308",
+          "message": "unresolved import `primitive_types`",
+          "code": "E0432",
           "file": "runtime/moonbeam/src/xcm_config.rs",
           "line": 264,
           "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbase/src/xcm_config.rs",
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs"
-      ],
-      "completed_at": "2025-07-29T13:15:00Z",
-      "errors_fixed": 3,
-      "errors_remaining": 0,
-      "fix_confidence": 0.85,
-      "scout_prs_used": [],
-      "fix_notes": "Converted sp_core::H160 to primitive_types::H160 in macro due to version mismatch"
-    },
-    {
-      "id": "error_group_release_proposal_moonriver",
-      "symbol": "release_proposal_moonriver",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "method `release_proposal_cost` has 2 parameters but the declaration in trait `release_proposal_cost` has 0",
-          "code": "E0050",
-          "file": "runtime/moonriver/src/weights/pallet_collective_treasury_council.rs",
-          "line": 315,
-          "column": 30
         }
       ],
       "status": "pending",
       "files": [
-        "runtime/moonriver/src/weights/pallet_collective_treasury_council.rs"
+        "runtime/moonbase/src/xcm_config.rs",
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs"
       ]
     }
   ],
-  "completed_groups": 5,
+  "completed_groups": 0,
   "final_check": {
     "error_count": 43,
     "iteration": 18,

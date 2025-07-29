@@ -18,7 +18,7 @@
 macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 	{} => {
 		use fp_evm::{CallInfo, CallOrCreateInfo, Context, Transfer};
-		use primitive_types as ethereum_types;
+		use sp_core as ethereum_types; // Fixed based on SDK migration
 		
 		use frame_support::dispatch::CallableCallFor;
 		use pallet_evm::{Runner, RunnerError};
