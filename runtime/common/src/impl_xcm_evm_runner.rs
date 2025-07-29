@@ -24,7 +24,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 		use frame_support::dispatch::CallableCallFor;
 		use pallet_evm::{Runner, RunnerError};
 		use precompile_utils::{prelude::*, evm::handle::with_precompile_handle};
-		use sp_core::{H160, H256, U256};
+		use primitive_types::{H160, H256, U256};
 		use sp_runtime::DispatchError;
 		use sp_weights::Weight;
 		use sp_std::vec::Vec;

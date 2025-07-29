@@ -4,36 +4,23 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 21,
+  "iteration": 22,
   "error_groups": [
     {
-      "id": "ethereum_transaction_types",
-      "symbol": "Transaction types mismatch",
-      "description": "Ethereum transaction types (Legacy, EIP2930, EIP1559) version mismatch",
-      "error_count": 9,
+      "id": "h160_type_mismatch",
+      "symbol": "H160 type mismatch",
+      "description": "Mismatch between sp_core::H160 and primitive_types::H160",
+      "error_count": 3,
       "files": [
-        "runtime/moonbeam/src/lib.rs",
-        "runtime/moonriver/src/lib.rs",
-        "runtime/moonbase/src/lib.rs"
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs",
+        "runtime/moonbase/src/xcm_config.rs"
       ],
-      "primary_error": "mismatched types - different versions of ethereum crate transaction types",
-      "status": "completed"
-    },
-    {
-      "id": "h256_u256_methods",
-      "symbol": "U256/H256 method signatures",
-      "description": "Method signature changes in primitive types",
-      "error_count": 6,
-      "files": [
-        "runtime/moonbeam/src/lib.rs",
-        "runtime/moonriver/src/lib.rs",
-        "runtime/moonbase/src/lib.rs"
-      ],
-      "primary_error": "this method takes 0 arguments but 1 argument was supplied",
+      "primary_error": "expected primitive_types::H160, found sp_core::H160",
       "status": "pending"
     }
   ],
-  "completed_groups": 1,
+  "completed_groups": 0,
   "final_check": {
     "error_count": 43,
     "iteration": 18,

@@ -54,3 +54,16 @@
 - Fix was based on existing handbook entry indicating types migrated to sp_core in SDK
 - Status: COMPLETED
 - All 3 errors fixed
+
+### Error Group: h256_u256_methods
+✓ Fixed U256/H256 method signatures (confidence: 0.9)
+- Error group: h256_u256_methods
+- Fixed compilation errors related to primitive types method signature changes
+- Updated runtime/common/src/impl_xcm_evm_runner.rs:
+  - Changed `H160::from(target.0)` to just `target` in TransactionAction::Call
+- Updated runtime/common/src/apis.rs:
+  - Changed `index.to_big_endian(&mut tmp)` to `let tmp = index.to_big_endian()`
+- These changes align with primitive_types 0.13 where methods now return arrays directly instead of taking mutable references
+- Based on Scout PR-5886
+- Status: COMPLETED
+- All 6 errors fixed
