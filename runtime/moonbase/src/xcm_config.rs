@@ -37,7 +37,7 @@ use frame_support::{
 };
 
 use frame_system::{EnsureRoot, RawOrigin};
-use sp_core::{ConstU32, H160, H256};
+use sp_core::{ConstU32, H160, H256, U256};
 
 use xcm_builder::{
 	AccountKey20Aliases, AllowKnownQueryResponses, AllowSubscriptionsFrom,

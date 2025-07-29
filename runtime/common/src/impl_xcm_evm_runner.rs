@@ -23,8 +23,8 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 		use frame_support::dispatch::CallableCallFor;
 		use pallet_evm::{Runner, RunnerError};
 		use precompile_utils::{prelude::*, evm::handle::with_precompile_handle};
-		// Import H160, H256, U256 from sp_core as used in runtime context
-		use sp_core::{H160, H256, U256};
+		// H160, H256, U256 types should be available from the runtime context
+		// No explicit import needed here to avoid name conflicts
 		use sp_runtime::DispatchError;
 		use sp_weights::Weight;
 		use sp_std::vec::Vec;

@@ -4,29 +4,29 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 26,
+  "iteration": 28,
   "error_groups": [
     {
-      "id": "final_ethereum_imports",
-      "symbol": "ethereum imports",
-      "description": "Macro requires ethereum imports but runtime files dont have ethereum crate",
-      "error_count": 6,
+      "id": "runtime_u256_h160_imports",
+      "symbol": "U256/H160 imports",
+      "description": "Runtime xcm_config files missing U256 imports and have H160 type mismatches after macro expansion",
+      "error_count": 9,
       "files": [
-        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs",
-        "runtime/moonbase/src/xcm_config.rs"
+        "runtime/moonbeam/src/xcm_config.rs"
       ],
-      "primary_error": "unresolved imports ethereum::H160, ethereum::H256, ethereum::U256",
-      "status": "completed",
-      "errors_fixed": 6,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9
+      "primary_error": "cannot find type U256 in this scope, mismatched types H160",
+      "status": "pending",
+      "errors_fixed": 0,
+      "errors_remaining": 9,
+      "fix_confidence": 0
     }
   ],
-  "completed_groups": 1,
+  "completed_groups": 0,
   "final_check": {
-    "error_count": 6,
-    "iteration": 26,
+    "error_count": 9,
+    "iteration": 27,
     "can_retry": true
   },
   "test_phase": {
@@ -34,5 +34,5 @@
     "iteration": 1,
     "test_groups": []
   },
-  "diagnose_result": "non_target_errors"
+  "diagnose_result": "target_errors"
 }
