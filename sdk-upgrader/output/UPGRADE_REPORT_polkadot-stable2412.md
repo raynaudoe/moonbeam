@@ -2,6 +2,20 @@
 
 ## Error Group Fixes
 
+### Error Group: evm_runner_authorization_list
+✓ Fixed AuthorizationListItem (confidence: 0.95)
+- Error group: evm_runner_authorization_list
+- Fixed compilation errors related to AuthorizationListItem type mismatch
+- Updated runtime/common/src/impl_xcm_evm_runner.rs:
+  - Added import `use fp_ethereum::AuthorizationListItem;`
+  - Changed authorization_list parameter type from tuple `Vec<(U256, H160, U256, Option<H160>)>` to `Vec<AuthorizationListItem>` in methods: call, create, create2, create_force_address
+  - Note: The `validate` method still uses the tuple type as the trait hasn't been updated yet
+- Fix was based on existing handbook entry with refinements for the validate method
+- Status: COMPLETED
+- All 12 errors fixed
+
+## Error Group Fixes
+
 ✓ Fixed H160_H256_duplicate (confidence: 0.9)
 ✓ Fixed authorization_list_revert (confidence: 0.9)
 - Error group: error_group_h160_h256_duplicate 
@@ -30,3 +44,13 @@
 - All 3 errors fixed
 
 ✓ Fixed release_proposal_moonriver (confidence: 0.9)
+
+### Error Group: primitive_types_import
+✓ Fixed primitive_types_import (confidence: 0.9)
+- Error group: error_group_primitive_types_import
+- Fixed compilation errors related to primitive_types_import
+- Updated runtime/common/src/impl_xcm_evm_runner.rs:
+  - Changed `use primitive_types as ethereum_types;` to `use sp_core as ethereum_types;`
+- Fix was based on existing handbook entry indicating types migrated to sp_core in SDK
+- Status: COMPLETED
+- All 3 errors fixed

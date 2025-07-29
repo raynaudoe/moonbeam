@@ -4,27 +4,20 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 18,
+  "iteration": 20,
   "error_groups": [
     {
-      "id": "error_group_primitive_types_import",
-      "symbol": "primitive_types_import",
-      "error_count": 3,
-      "errors": [
-        {
-          "message": "unresolved import `primitive_types`",
-          "code": "E0432",
-          "file": "runtime/moonbeam/src/xcm_config.rs",
-          "line": 264,
-          "column": 1
-        }
-      ],
-      "status": "pending",
+      "id": "evm_runner_authorization_list",
+      "symbol": "AuthorizationListItem",
+      "description": "EVM runner methods expecting AuthorizationListItem but getting tuple",
+      "error_count": 12,
       "files": [
-        "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs"
-      ]
+        "runtime/moonriver/src/xcm_config.rs",
+        "runtime/moonbase/src/xcm_config.rs"
+      ],
+      "primary_error": "method has incompatible type for trait - expected AuthorizationListItem",
+      "status": "pending"
     }
   ],
   "completed_groups": 0,
@@ -35,7 +28,7 @@
   },
   "test_phase": {
     "started_at": "2025-07-29T10:37:27Z",
-    "iteration": 0,
+    "iteration": 1,
     "test_groups": []
   },
   "diagnose_result": "non_target_errors"

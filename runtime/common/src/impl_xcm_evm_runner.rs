@@ -18,6 +18,7 @@
 macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 	{} => {
 		use fp_evm::{CallInfo, CallOrCreateInfo, Context, Transfer};
+		use fp_ethereum::AuthorizationListItem;
 		use sp_core as ethereum_types; // Fixed based on SDK migration
 		
 		use frame_support::dispatch::CallableCallFor;
@@ -54,7 +55,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
 				// Fixed for polkadot-stable2412: Changed from tuple to AuthorizationListItem type
-				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
+				_authorization_list: Vec<AuthorizationListItem>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -143,7 +144,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
+				_authorization_list: Vec<AuthorizationListItem>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -163,7 +164,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
+				_authorization_list: Vec<AuthorizationListItem>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -183,7 +184,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
 				// Fixed for polkadot-stable2412: Changed from tuple to AuthorizationListItem type
-				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
+				_authorization_list: Vec<AuthorizationListItem>,
 				is_transactional: bool,
 				validate: bool,
 				weight_limit: Option<Weight>,
