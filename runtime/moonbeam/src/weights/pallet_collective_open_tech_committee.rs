@@ -302,4 +302,52 @@ impl<T: frame_system::Config> pallet_collective_open_tech_committee::WeightInfo 
 			.saturating_add(T::DbWeight::get().writes(3_u64))
 			.saturating_add(Weight::from_parts(0, 32).saturating_mul(p.into()))
 	}
+	/// Storage: `OpenTechCommitteeCollective::ProposalOf` (r:1 w:1)
+	/// Proof: `OpenTechCommitteeCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `OpenTechCommitteeCollective::CostOf` (r:1 w:1)
+	/// Proof: `OpenTechCommitteeCollective::CostOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `Balances::Holds` (r:1 w:1)
+	/// Proof: `Balances::Holds` (`max_values`: None, `max_size`: Some(337), added: 2812, mode: `MaxEncodedLen`)
+	/// Storage: `OpenTechCommitteeCollective::Proposals` (r:1 w:1)
+	/// Proof: `OpenTechCommitteeCollective::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `OpenTechCommitteeCollective::Voting` (r:0 w:1)
+	/// Proof: `OpenTechCommitteeCollective::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// The range of component `d` is `[0, 1]`.
+	/// The range of component `p` is `[1, 100]`.
+	fn kill(d: u32, p: u32, ) -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `1497 + p * (36 ±0)`
+		//  Estimated: `4896 + d * (123 ±6) + p * (37 ±0)`
+		// Minimum execution time: 22_455_000 picoseconds.
+		Weight::from_parts(24_273_426, 4896)
+			// Standard Error: 82_114
+			.saturating_add(Weight::from_parts(996_567, 0).saturating_mul(d.into()))
+			// Standard Error: 1_271
+			.saturating_add(Weight::from_parts(213_968, 0).saturating_mul(p.into()))
+			.saturating_add(T::DbWeight::get().reads(3))
+			.saturating_add(T::DbWeight::get().reads(2).saturating_mul(d.into()))
+			.saturating_add(T::DbWeight::get().writes(3))
+			.saturating_add(T::DbWeight::get().writes(3).saturating_mul(d.into()))
+			.saturating_add(Weight::from_parts(0, 123).saturating_mul(d.into()))
+			.saturating_add(Weight::from_parts(0, 37).saturating_mul(p.into()))
+	}
+	/// Storage: `OpenTechCommitteeCollective::ProposalOf` (r:1 w:0)
+	/// Proof: `OpenTechCommitteeCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `OpenTechCommitteeCollective::CostOf` (r:1 w:0)
+	/// Proof: `OpenTechCommitteeCollective::CostOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `Balances::Holds` (r:1 w:1)
+	/// Proof: `Balances::Holds` (`max_values`: None, `max_size`: Some(337), added: 2812, mode: `MaxEncodedLen`)
+	fn release_proposal_cost() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `1964`
+		//  Estimated: `5429`
+		// Minimum execution time: 69_220_000 picoseconds.
+		Weight::from_parts(70_215_000, 5429)
+			.saturating_add(T::DbWeight::get().reads(4_u64))
+			.saturating_add(T::DbWeight::get().writes(2_u64))
+	}
 }
