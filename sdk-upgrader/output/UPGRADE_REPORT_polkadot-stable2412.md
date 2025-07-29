@@ -2,6 +2,18 @@
 
 ## Error Group Fixes
 
+✓ Fixed AuthorizationListItem (confidence: 0.7)
+- Error group: error_group_authorization_list
+- Fixed compilation errors related to AuthorizationListItem type mismatch
+- Added import in runtime/common/src/impl_xcm_evm_runner.rs:
+  - Import: `use fp_ethereum::AuthorizationListItem;`
+  - This imports the correct type from the fp_ethereum crate matching the trait signature
+- Successfully resolved all AuthorizationListItem errors for methods: call, create, create2, create_force_address
+- Affects: moonbase, moonbeam, and moonriver runtimes
+- All compilation errors eliminated
+
+## Error Group Fixes
+
  **Fixed Location> (confidence: 1.0)**
 - Error group: error_group_001
 - All 5 Location> trait bound errors have been successfully resolved
@@ -177,3 +189,21 @@ The originally reported error about `from_string` method not being found for typ
 **Confidence**: 1.0
 
 EOF < /dev/null
+## runtime_apis Errors Fixed
+
+✓ Fixed runtime_apis errors (confidence: 0.9)
+
+Fixed pattern matching error in `Preamble::Signed` variant across all runtime implementations (moonbeam, moonriver, moonbase). The error occurred because the code expected 4 fields but `Preamble::Signed` in polkadot-stable2412 has only 3 fields: (Address, Signature, Extension).
+
+**Changed from:**
+```rust
+Preamble::Signed(_, _, ref signed_extra, _) => { ... }
+```
+
+**To:**
+```rust
+Preamble::Signed(_, _, ref extension) => { ... }
+```
+
+The fix was applied to the `validate_transaction` implementation in the `TaggedTransactionQueue` runtime API.
+

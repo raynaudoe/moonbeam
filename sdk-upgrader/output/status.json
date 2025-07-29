@@ -7,130 +7,47 @@
   "iteration": 16,
   "error_groups": [
     {
-      "id": "error_group_collective_weights",
-      "symbol": "pallet_collective_weights",
-      "error_count": 6,
+      "id": "error_group_authorization_list",
+      "symbol": "AuthorizationListItem",
+      "error_count": 2,
       "errors": [
         {
-          "message": "not all trait items implemented, missing: kill, release_proposal_cost",
-          "code": "E0046",
-          "file": "runtime/moonbeam/src/weights/pallet_collective_open_tech_committee.rs",
-          "line": 54,
-          "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbeam/src/weights/pallet_collective_open_tech_committee.rs",
-        "runtime/moonbeam/src/weights/pallet_collective_treasury_council.rs",
-        "runtime/moonbase/src/weights/pallet_collective_council.rs",
-        "runtime/moonbase/src/weights/pallet_collective_techcomittee.rs",
-        "runtime/moonriver/src/weights/pallet_collective_open_tech_committee.rs",
-        "runtime/moonriver/src/weights/pallet_collective_treasury_council.rs"
-      ],
-      "errors_fixed": 2,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": [
-        "PR-3151"
-      ]
-    },
-    {
-      "id": "error_group_pallet_identity",
-      "symbol": "pallet_identity_weights",
-      "error_count": 3,
-      "errors": [
-        {
-          "message": "not all trait items implemented, missing: set_username_for, accept_username",
-          "code": "E0046",
-          "file": "runtime/moonbeam/src/weights/pallet_identity.rs",
-          "line": 52,
-          "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbeam/src/weights/pallet_identity.rs",
-        "runtime/moonbase/src/weights/pallet_identity.rs",
-        "runtime/moonriver/src/weights/pallet_identity.rs"
-      ],
-      "errors_fixed": 1,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": [
-        "PR-5554"
-      ]
-    },
-    {
-      "id": "error_group_xcm_config",
-      "symbol": "xcm_config",
-      "error_count": 9,
-      "errors": [
-        {
-          "message": "method validate has an incompatible type for trait",
+          "message": "expected AuthorizationListItem, found (U256, H160, U256, Option<H160>)",
           "code": "E0053",
-          "file": "runtime/moonbeam/src/xcm_config.rs",
-          "line": 264,
+          "file": "runtime/moonbase/src/xcm_config.rs",
+          "line": 243,
           "column": 1
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonbase/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs"
-      ],
-      "errors_fixed": 9,
-      "errors_remaining": 0,
-      "fix_confidence": 0.9,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_genesis_config",
-      "symbol": "genesis_config_preset",
-      "error_count": 6,
-      "errors": [
-        {
-          "message": "no function or associated item named from_string found for type parameter TPublic",
-          "code": "E0599",
-          "file": "runtime/moonbeam/src/genesis_config_preset.rs",
-          "line": 44,
-          "column": 11
-        }
-      ],
-      "status": "completed",
-      "files": [
-        "runtime/moonbeam/src/genesis_config_preset.rs",
-        "runtime/moonbase/src/genesis_config_preset.rs",
-        "runtime/moonriver/src/genesis_config_preset.rs"
-      ],
-      "errors_fixed": 6,
-      "errors_remaining": 0,
-      "fix_confidence": 1,
-      "scout_prs_used": []
-    },
-    {
-      "id": "error_group_runtime_apis",
-      "symbol": "runtime_apis",
-      "error_count": 8,
-      "errors": [
-        {
-          "message": "this pattern has 4 fields, but the corresponding tuple variant has 3 fields",
-          "code": "E0023",
-          "file": "runtime/moonriver/src/lib.rs",
-          "line": 1617,
-          "column": 24
         }
       ],
       "status": "pending",
       "files": [
-        "runtime/moonriver/src/lib.rs",
-        "runtime/moonbase/src/lib.rs",
-        "runtime/moonbeam/src/lib.rs"
+        "runtime/moonbase/src/xcm_config.rs",
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs"
+      ]
+    },
+    {
+      "id": "error_group_h160_mismatch",
+      "symbol": "H160_mismatch",
+      "error_count": 1,
+      "errors": [
+        {
+          "message": "expected primitive_types::H160, found sp_core::H160",
+          "code": "E0308",
+          "file": "runtime/moonbase/src/xcm_config.rs",
+          "line": 243,
+          "column": 1
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "runtime/moonbase/src/xcm_config.rs",
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs"
       ]
     }
   ],
-  "completed_groups": 7,
+  "completed_groups": 0,
   "final_check": {
     "error_count": 32,
     "iteration": 14,
