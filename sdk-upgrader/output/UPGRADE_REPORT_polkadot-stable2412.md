@@ -235,3 +235,10 @@ The fix was applied to the `validate_transaction` implementation in the `TaggedT
 ✓ Fixed validate_method (confidence: 0.7)
 - Changed authorization_list parameter type in validate method from Vec<AuthorizationListItem> to (U256, H160, U256, Option<H160>)
 - This matches the updated Runner trait signature in polkadot-stable2412
+
+### transaction_collect Fix Applied
+✓ Fixed transaction_collect errors (confidence: 0.8)
+- Added `.into()` conversion for pallet_ethereum::Transaction to ethereum::TransactionV2
+- Applied to all occurrences in runtime/common/src/apis.rs
+- Fixed 3 errors in extrinsic_filter method of TxPoolRuntimeApi
+

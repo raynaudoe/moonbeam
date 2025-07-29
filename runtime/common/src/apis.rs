@@ -395,14 +395,28 @@ macro_rules! impl_runtime_apis_plus_common {
 						ready: xts_ready
 							.into_iter()
 							.filter_map(|xt| match xt.0.function {
-								RuntimeCall::Ethereum(transact { transaction }) => Some(transaction),
+								RuntimeCall::Ethereum(transact { transaction }) => {
+							use ethereum::TransactionV2;
+							Some(match transaction {
+								pallet_ethereum::Transaction::Legacy(t) => TransactionV2::Legacy(t),
+								pallet_ethereum::Transaction::EIP2930(t) => TransactionV2::EIP2930(t),
+								pallet_ethereum::Transaction::EIP1559(t) => TransactionV2::EIP1559(t),
+							})
+						},
 								_ => None,
 							})
 							.collect(),
 						future: xts_future
 							.into_iter()
 							.filter_map(|xt| match xt.0.function {
-								RuntimeCall::Ethereum(transact { transaction }) => Some(transaction),
+								RuntimeCall::Ethereum(transact { transaction }) => {
+							use ethereum::TransactionV2;
+							Some(match transaction {
+								pallet_ethereum::Transaction::Legacy(t) => TransactionV2::Legacy(t),
+								pallet_ethereum::Transaction::EIP2930(t) => TransactionV2::EIP2930(t),
+								pallet_ethereum::Transaction::EIP1559(t) => TransactionV2::EIP1559(t),
+							})
+						},
 								_ => None,
 							})
 							.collect(),
