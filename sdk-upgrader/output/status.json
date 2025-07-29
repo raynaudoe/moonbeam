@@ -19,7 +19,14 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
+      "fix_metadata": {
+        "errors_fixed": 12,
+        "errors_remaining": 0,
+        "fix_confidence": 0.7,
+        "scout_prs_used": [],
+        "fix_description": "Added import of fp_ethereum::AuthorizationListItem to resolve type mismatch"
+      },
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
@@ -47,7 +54,7 @@
       ]
     }
   ],
-  "completed_groups": 0,
+  "completed_groups": 1,
   "final_check": {
     "error_count": 32,
     "iteration": 14,

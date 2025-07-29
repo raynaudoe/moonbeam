@@ -3,6 +3,7 @@
 ## Error Group Fixes
 
 ✓ Fixed AuthorizationListItem (confidence: 0.7)
+✓ Fixed H160_mismatch (confidence: 0.9)
 - Error group: error_group_authorization_list
 - Fixed compilation errors related to AuthorizationListItem type mismatch
 - Added import in runtime/common/src/impl_xcm_evm_runner.rs:
