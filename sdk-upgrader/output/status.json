@@ -19,12 +19,18 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
-      ]
+      ],
+      "completed_at": "2025-07-29T12:48:45.699945Z",
+      "errors_fixed": 6,
+      "errors_remaining": 0,
+      "fix_confidence": 0.9,
+      "scout_prs_used": [],
+      "fix_notes": "Removed duplicate H160, H256 imports - macro already imports them"
     },
     {
       "id": "error_group_authorization_list_revert",
@@ -85,7 +91,7 @@
       ]
     }
   ],
-  "completed_groups": 0,
+  "completed_groups": 2,
   "final_check": {
     "error_count": 43,
     "iteration": 18,
