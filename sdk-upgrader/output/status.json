@@ -71,12 +71,18 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
-      ]
+      ],
+      "completed_at": "2025-07-29T13:15:00Z",
+      "errors_fixed": 3,
+      "errors_remaining": 0,
+      "fix_confidence": 0.85,
+      "scout_prs_used": [],
+      "fix_notes": "Converted sp_core::H160 to primitive_types::H160 in macro due to version mismatch"
     },
     {
       "id": "error_group_release_proposal_moonriver",
@@ -97,7 +103,7 @@
       ]
     }
   ],
-  "completed_groups": 3,
+  "completed_groups": 5,
   "final_check": {
     "error_count": 43,
     "iteration": 18,

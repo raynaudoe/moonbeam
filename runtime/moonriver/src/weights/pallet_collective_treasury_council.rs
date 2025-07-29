@@ -312,7 +312,7 @@ impl<T: frame_system::Config> pallet_collective_treasury_council::WeightInfo for
 	
 	/// Storage: `TreasuryCouncilCollective::ProposalOf` (r:1 w:1)
 	/// Proof: `TreasuryCouncilCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
-	fn release_proposal_cost(m: u32, p: u32) -> Weight {
+	fn release_proposal_cost() -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`

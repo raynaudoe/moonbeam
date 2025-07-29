@@ -28,3 +28,5 @@
 - The issue was caused by different versions of primitive_types crate (0.12.2 vs 0.13.1)
 - Status: COMPLETED
 - All 3 errors fixed
+
+✓ Fixed release_proposal_moonriver (confidence: 0.9)
