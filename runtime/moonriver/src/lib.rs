@@ -1614,14 +1614,15 @@ moonbeam_runtime_common::impl_runtime_apis_plus_common! {
 					use sp_runtime::generic::Preamble;
 					let tip = match &xt.0.preamble {
 						Preamble::Bare(_) => 0,
-						Preamble::Signed(_, _, ref signed_extra, _) => {
-							// Yuck, this depends on the index of charge transaction in Signed Extra
-							let charge_transaction = &signed_extra.7;
+						Preamble::Signed(_, _, ref extension) => {
+							// Fixed for polkadot-stable2412: Signed has (Address, Signature, Extension)
+							// Yuck, this depends on the index of charge transaction in Extension
+							let charge_transaction = &extension.7;
 							charge_transaction.tip()
 						}
-						Preamble::General(_, ref signed_extra) => {
-							// Yuck, this depends on the index of charge transaction in Signed Extra
-							let charge_transaction = &signed_extra.7;
+						Preamble::General(_, ref extension) => {
+							// Yuck, this depends on the index of charge transaction in Extension
+							let charge_transaction = &extension.7;
 							charge_transaction.tip()
 						}
 					};

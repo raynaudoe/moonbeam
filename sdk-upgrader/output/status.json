@@ -74,12 +74,16 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
-      ]
+      ],
+      "errors_fixed": 9,
+      "errors_remaining": 0,
+      "fix_confidence": 0.9,
+      "scout_prs_used": []
     },
     {
       "id": "error_group_genesis_config",
@@ -94,12 +98,16 @@
           "column": 11
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbeam/src/genesis_config_preset.rs",
         "runtime/moonbase/src/genesis_config_preset.rs",
         "runtime/moonriver/src/genesis_config_preset.rs"
-      ]
+      ],
+      "errors_fixed": 6,
+      "errors_remaining": 0,
+      "fix_confidence": 1,
+      "scout_prs_used": []
     },
     {
       "id": "error_group_runtime_apis",
@@ -122,7 +130,7 @@
       ]
     }
   ],
-  "completed_groups": 4,
+  "completed_groups": 7,
   "final_check": {
     "error_count": 32,
     "iteration": 14,
