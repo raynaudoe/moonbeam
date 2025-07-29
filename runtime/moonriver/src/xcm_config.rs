@@ -37,7 +37,7 @@ use sp_runtime::{
 
 use frame_system::{EnsureRoot, RawOrigin};
 use sp_core::ConstU32;
-use primitive_types::{H160, H256};
+use sp_core::{H160, H256};
 
 use xcm_builder::{
 	AccountKey20Aliases, AllowKnownQueryResponses, AllowSubscriptionsFrom,

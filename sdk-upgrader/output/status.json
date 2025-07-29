@@ -19,12 +19,19 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
-      ]
+      ],
+      "fix_metadata": {
+        "errors_fixed": 3,
+        "errors_remaining": 0,
+        "fix_confidence": 0.9,
+        "scout_prs_used": [],
+        "fix_description": "Removed duplicate Weight imports from xcm_config.rs files"
+      }
     },
     {
       "id": "error_group_primitive_types_import",
@@ -145,7 +152,7 @@
       ]
     }
   ],
-  "completed_groups": 0,
+  "completed_groups": 1,
   "final_check": {
     "error_count": 32,
     "iteration": 14,

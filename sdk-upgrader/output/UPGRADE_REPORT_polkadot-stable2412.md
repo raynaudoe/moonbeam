@@ -221,3 +221,14 @@ Preamble::Signed(_, _, ref extension) => { ... }
 
 The fix was applied to the `validate_transaction` implementation in the `TaggedTransactionQueue` runtime API.
 
+## Error Group Fixes
+
+✓ Fixed primitive_types_import (confidence: 0.85)
+- Error group: error_group_primitive_types_import
+- Fixed compilation errors related to primitive_types import
+- Changed import from `use primitive_types::{H160, H256};` to `use sp_core::{H160, H256};` in:
+  - runtime/moonbase/src/xcm_config.rs
+  - runtime/moonbeam/src/xcm_config.rs
+  - runtime/moonriver/src/xcm_config.rs
+- H160 and H256 types are now exported from sp_core in polkadot-stable2412
+- Status: COMPLETED
