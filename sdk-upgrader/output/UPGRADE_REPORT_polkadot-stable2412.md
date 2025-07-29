@@ -2,6 +2,34 @@
 
 ## Error Group Fixes
 
+### Error Group: primitive_types_missing_import
+✓ Fixed primitive_types import (confidence: 0.9)
+- Error group: primitive_types_missing_import
+- Fixed compilation errors related to missing primitive_types import in runtime files
+- Added `use sp_core as primitive_types;` alias to:
+  - runtime/moonbase/src/xcm_config.rs
+  - runtime/moonbeam/src/xcm_config.rs
+  - runtime/moonriver/src/xcm_config.rs
+- The macro `moonbeam_runtime_common::impl_evm_runner_precompile_or_eth_xcm!()` uses primitive_types::{H160, H256, U256}
+- Since the runtime files use sp_core for these types, an alias was needed to satisfy the macro's import
+- Status: COMPLETED
+- All 3 errors fixed
+
+## Error Group Fixes
+
+### Error Group: h160_type_mismatch
+✓ Fixed H160 type mismatch (confidence: 1.0)
+- Error group: h160_type_mismatch
+- Fixed compilation errors related to H160 type mismatch between sp_core and primitive_types
+- Updated runtime/common/src/impl_xcm_evm_runner.rs:
+  - Changed `use sp_core::{H160, H256, U256};` to `use primitive_types::{H160, H256, U256};`
+- The issue was caused by ethereum crate v0.15.0 expecting primitive_types::H160 while we were providing sp_core::H160
+- Direct type import fix resolved all 3 errors
+- Status: COMPLETED
+- All 3 errors fixed
+
+## Error Group Fixes
+
 ### Error Group: evm_runner_authorization_list
 ✓ Fixed AuthorizationListItem (confidence: 0.95)
 - Error group: evm_runner_authorization_list

@@ -4,19 +4,32 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 22,
+  "iteration": 23,
   "error_groups": [
     {
-      "id": "h160_type_mismatch",
-      "symbol": "H160 type mismatch",
-      "description": "Mismatch between sp_core::H160 and primitive_types::H160",
+      "id": "primitive_types_missing_import",
+      "symbol": "primitive_types import",
+      "description": "Missing primitive_types import in runtime files",
       "error_count": 3,
       "files": [
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs",
         "runtime/moonbase/src/xcm_config.rs"
       ],
-      "primary_error": "expected primitive_types::H160, found sp_core::H160",
+      "primary_error": "unresolved import primitive_types",
+      "status": "pending"
+    },
+    {
+      "id": "h160_converter_traits",
+      "symbol": "H160 converter traits",
+      "description": "Converter traits expect sp_core::H160 but implementations use primitive_types::H160",
+      "error_count": 9,
+      "files": [
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs",
+        "runtime/moonbase/src/xcm_config.rs"
+      ],
+      "primary_error": "trait bound not satisfied - expecting sp_core::H160",
       "status": "pending"
     }
   ],
