@@ -4,39 +4,26 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 23,
+  "iteration": 24,
   "error_groups": [
     {
-      "id": "primitive_types_missing_import",
-      "symbol": "primitive_types import",
-      "description": "Missing primitive_types import in runtime files",
+      "id": "final_h160_mismatch",
+      "symbol": "Final H160 type conflict",
+      "description": "Conflict between macro using ethereum_types and runtime using primitive_types aliases",
       "error_count": 3,
       "files": [
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs",
         "runtime/moonbase/src/xcm_config.rs"
       ],
-      "primary_error": "unresolved import primitive_types",
-      "status": "pending"
-    },
-    {
-      "id": "h160_converter_traits",
-      "symbol": "H160 converter traits",
-      "description": "Converter traits expect sp_core::H160 but implementations use primitive_types::H160",
-      "error_count": 9,
-      "files": [
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs",
-        "runtime/moonbase/src/xcm_config.rs"
-      ],
-      "primary_error": "trait bound not satisfied - expecting sp_core::H160",
+      "primary_error": "expected primitive_types::H160, found sp_core::H160 - alias conflict",
       "status": "pending"
     }
   ],
   "completed_groups": 0,
   "final_check": {
-    "error_count": 43,
-    "iteration": 18,
+    "error_count": 3,
+    "iteration": 23,
     "can_retry": true
   },
   "test_phase": {
