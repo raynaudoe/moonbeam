@@ -4,45 +4,18 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 16,
+  "iteration": 17,
   "error_groups": [
     {
-      "id": "error_group_authorization_list",
-      "symbol": "AuthorizationListItem",
-      "error_count": 2,
+      "id": "error_group_weight_duplicate",
+      "symbol": "Weight_duplicate",
+      "error_count": 3,
       "errors": [
         {
-          "message": "expected AuthorizationListItem, found (U256, H160, U256, Option<H160>)",
-          "code": "E0053",
-          "file": "runtime/moonbase/src/xcm_config.rs",
-          "line": 243,
-          "column": 1
-        }
-      ],
-      "status": "completed",
-      "fix_metadata": {
-        "errors_fixed": 12,
-        "errors_remaining": 0,
-        "fix_confidence": 0.7,
-        "scout_prs_used": [],
-        "fix_description": "Added import of fp_ethereum::AuthorizationListItem to resolve type mismatch"
-      },
-      "files": [
-        "runtime/moonbase/src/xcm_config.rs",
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs"
-      ]
-    },
-    {
-      "id": "error_group_h160_mismatch",
-      "symbol": "H160_mismatch",
-      "error_count": 1,
-      "errors": [
-        {
-          "message": "expected primitive_types::H160, found sp_core::H160",
-          "code": "E0308",
-          "file": "runtime/moonbase/src/xcm_config.rs",
-          "line": 243,
+          "message": "the name `Weight` is defined multiple times",
+          "code": "E0252",
+          "file": "runtime/moonbeam/src/xcm_config.rs",
+          "line": 265,
           "column": 1
         }
       ],
@@ -52,9 +25,127 @@
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
       ]
+    },
+    {
+      "id": "error_group_primitive_types_import",
+      "symbol": "primitive_types_import",
+      "error_count": 3,
+      "errors": [
+        {
+          "message": "unresolved import `primitive_types`",
+          "code": "E0432",
+          "file": "runtime/moonbeam/src/xcm_config.rs",
+          "line": 41,
+          "column": 5
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "runtime/moonbase/src/xcm_config.rs",
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs"
+      ]
+    },
+    {
+      "id": "error_group_validate_method",
+      "symbol": "validate_method",
+      "error_count": 3,
+      "errors": [
+        {
+          "message": "method `validate` has an incompatible type for trait",
+          "code": "E0053",
+          "file": "runtime/moonbeam/src/xcm_config.rs",
+          "line": 265,
+          "column": 1
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "runtime/moonbase/src/xcm_config.rs",
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs"
+      ]
+    },
+    {
+      "id": "error_group_transaction_collect",
+      "symbol": "transaction_collect",
+      "error_count": 3,
+      "errors": [
+        {
+          "message": "a value of type `sp_runtime::Vec<moonbeam_rpc_primitives_txpool::Transaction>` cannot be built from an iterator over elements of type `pallet_ethereum::Transaction`",
+          "code": "E0277",
+          "file": "runtime/moonbeam/src/lib.rs",
+          "line": 1612,
+          "column": 1
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "runtime/moonbase/src/lib.rs",
+        "runtime/moonbeam/src/lib.rs",
+        "runtime/moonriver/src/lib.rs"
+      ]
+    },
+    {
+      "id": "error_group_u256_method",
+      "symbol": "u256_method",
+      "error_count": 3,
+      "errors": [
+        {
+          "message": "this method takes 0 arguments but 1 argument was supplied",
+          "code": "E0061",
+          "file": "runtime/moonbeam/src/lib.rs",
+          "line": 1612,
+          "column": 1
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "runtime/moonbase/src/lib.rs",
+        "runtime/moonbeam/src/lib.rs",
+        "runtime/moonriver/src/lib.rs"
+      ]
+    },
+    {
+      "id": "error_group_type_mismatch",
+      "symbol": "type_mismatch",
+      "error_count": 3,
+      "errors": [
+        {
+          "message": "mismatched types",
+          "code": "E0308",
+          "file": "runtime/moonbeam/src/xcm_config.rs",
+          "line": 265,
+          "column": 1
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "runtime/moonbase/src/xcm_config.rs",
+        "runtime/moonbeam/src/xcm_config.rs",
+        "runtime/moonriver/src/xcm_config.rs"
+      ]
+    },
+    {
+      "id": "error_group_release_proposal",
+      "symbol": "release_proposal_cost",
+      "error_count": 1,
+      "errors": [
+        {
+          "message": "method `release_proposal_cost` has 2 parameters but the declaration in trait `release_proposal_cost` has 0",
+          "code": "E0050",
+          "file": "pallets/collective/src/weights.rs",
+          "line": 235,
+          "column": 1
+        }
+      ],
+      "status": "pending",
+      "files": [
+        "pallets/collective/src/weights.rs"
+      ]
     }
   ],
-  "completed_groups": 1,
+  "completed_groups": 0,
   "final_check": {
     "error_count": 32,
     "iteration": 14,

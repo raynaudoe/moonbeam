@@ -34,7 +34,6 @@ use sp_runtime::{
 	traits::{Hash as THash, MaybeEquivalence, PostDispatchInfoOf},
 	DispatchErrorWithPostInfo,
 };
-use sp_weights::Weight;
 
 use frame_system::{EnsureRoot, RawOrigin};
 use sp_core::ConstU32;

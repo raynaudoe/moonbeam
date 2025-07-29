@@ -2,6 +2,19 @@
 
 ## Error Group Fixes
 
+✓ Fixed Weight_duplicate (confidence: 0.9)
+- Error group: error_group_weight_duplicate
+- Fixed compilation errors related to duplicate Weight imports
+- Removed duplicate `use sp_weights::Weight;` import from:
+  - runtime/moonbase/src/xcm_config.rs
+  - runtime/moonbeam/src/xcm_config.rs
+  - runtime/moonriver/src/xcm_config.rs
+- The macro `moonbeam_runtime_common::impl_evm_runner_precompile_or_eth_xcm!()` already imports Weight
+- All Weight duplicate errors eliminated
+- Status: COMPLETED
+
+## Error Group Fixes
+
 ✓ Fixed AuthorizationListItem (confidence: 0.7)
 ✓ Fixed H160_mismatch (confidence: 0.9)
 - Error group: error_group_authorization_list
