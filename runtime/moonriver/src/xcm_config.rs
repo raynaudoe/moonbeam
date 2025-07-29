@@ -465,12 +465,25 @@ impl From<xcm::v3::Location> for AssetType {
 impl TryFrom<Location> for AssetType {
 	type Error = ();
 	fn try_from(location: Location) -> Result<Self, Self::Error> {
-		use xcm::v3::Location as LocationV3;
-		
-		// Convert from v5 to v3
-		let v3_location: LocationV3 = location.try_into()
-			.map_err(|_| ())?;
-		Ok(Self::Xcm(v3_location))
+		// Convert v5 Location to VersionedLocation, then to v3
+		let versioned = xcm::VersionedLocation::from(location);
+		match versioned {
+			xcm::VersionedLocation::V3(v3_location) => Ok(Self::Xcm(v3_location)),
+			xcm::VersionedLocation::V4(v4_location) => {
+				// Try to convert v4 to v3
+				let v3_location: xcm::v3::Location = v4_location.try_into()
+					.map_err(|_| ())?;
+				Ok(Self::Xcm(v3_location))
+			},
+			xcm::VersionedLocation::V5(v5_location) => {
+				// First convert v5 to v4, then to v3
+				let v4_location: xcm::v4::Location = v5_location.try_into()
+					.map_err(|_| ())?;
+				let v3_location: xcm::v3::Location = v4_location.try_into()
+					.map_err(|_| ())?;
+				Ok(Self::Xcm(v3_location))
+			}
+		}
 	}
 }
 
@@ -485,9 +498,14 @@ impl Into<Option<xcm::v3::Location>> for AssetType {
 impl Into<Option<Location>> for AssetType {
 	fn into(self) -> Option<Location> {
 		match self {
-			Self::Xcm(location) => {
-				// Convert from v3 to v5
-				location.try_into().ok()
+			Self::Xcm(v3_location) => {
+				// Convert from v3 to v5 via VersionedLocation
+				let versioned = xcm::VersionedLocation::V3(v3_location);
+				if let Ok(v5_location) = Location::try_from(versioned) {
+					Some(v5_location)
+				} else {
+					None
+				}
 			}
 		}
 	}

@@ -24,12 +24,13 @@ use crate::{
 	PolkadotXcmConfig, Precompiles, Range, RuntimeGenesisConfig, TransactionPaymentConfig,
 	TreasuryCouncilCollectiveConfig, HOURS,
 };
-use alloc::{vec, vec::Vec};
+use alloc::{format, vec, vec::Vec};
 use cumulus_primitives_core::ParaId;
 use fp_evm::GenesisAccount;
 use nimbus_primitives::NimbusId;
 use pallet_transaction_payment::Multiplier;
 // get_from_seed is defined locally in this file
+use sp_core::Pair;
 use sp_genesis_builder::PresetId;
 use sp_runtime::{Perbill, Percent};
 
@@ -40,9 +41,14 @@ const BLOCKS_PER_YEAR: u32 = 31_557_600 / 12;
 const NUM_SELECTED_CANDIDATES: u32 = 8;
 
 // Helper function to generate NimbusId from seed
-fn get_from_seed<TPublic: sp_core::Public>(seed: &str) -> TPublic {
-	TPublic::from_string(&format!("//{}", seed), None)
+fn get_from_seed<TPublic: sp_core::Public>(seed: &str) -> <TPublic::Pair as sp_core::Pair>::Public
+where
+	TPublic::Pair: sp_core::Pair<Public = TPublic>,
+{
+	TPublic::Pair::from_string_with_seed(&format!("//{}", seed), None)
 		.expect("static values are valid; qed")
+		.0
+		.public()
 }
 
 pub fn moonbeam_inflation_config() -> InflationInfo<Balance> {
@@ -235,8 +241,8 @@ pub fn development() -> serde_json::Value {
 
 /// Provides the JSON representation of predefined genesis config for given `id`.
 pub fn get_preset(id: &PresetId) -> Option<Vec<u8>> {
-	let patch = match id.try_into() {
-		Ok(sp_genesis_builder::DEV_RUNTIME_PRESET) => development(),
+	let patch = match id.as_ref() as &str {
+		sp_genesis_builder::DEV_RUNTIME_PRESET => development(),
 		_ => return None,
 	};
 	Some(

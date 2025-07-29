@@ -24,12 +24,12 @@ use crate::{
 	PolkadotXcmConfig, Precompiles, Range, RuntimeGenesisConfig, SudoConfig,
 	TransactionPaymentConfig, TreasuryCouncilCollectiveConfig, XcmTransactorConfig, HOURS,
 };
-use alloc::{vec, vec::Vec};
+use alloc::{format, vec, vec::Vec};
 use cumulus_primitives_core::ParaId;
 use fp_evm::GenesisAccount;
 use nimbus_primitives::NimbusId;
 use pallet_transaction_payment::Multiplier;
-use sp_core::sr25519;
+use sp_core::{sr25519, Pair};
 use sp_genesis_builder::PresetId;
 use sp_runtime::{traits::One, Perbill, Percent};
 
@@ -44,8 +44,9 @@ fn get_from_seed<TPublic: sp_core::Public>(seed: &str) -> <TPublic::Pair as sp_c
 where
 	TPublic::Pair: sp_core::Pair<Public = TPublic>,
 {
-	TPublic::Pair::from_string(&format!("//{}", seed), None)
+	TPublic::Pair::from_string_with_seed(&format!("//{}", seed), None)
 		.expect("static values are valid; qed")
+		.0
 		.public()
 }
 
@@ -255,8 +256,8 @@ pub fn development() -> serde_json::Value {
 
 /// Provides the JSON representation of predefined genesis config for given `id`.
 pub fn get_preset(id: &PresetId) -> Option<Vec<u8>> {
-	let patch = match id.try_into() {
-		Ok(sp_genesis_builder::DEV_RUNTIME_PRESET) => development(),
+	let patch = match id.as_ref() as &str {
+		sp_genesis_builder::DEV_RUNTIME_PRESET => development(),
 		_ => return None,
 	};
 	Some(

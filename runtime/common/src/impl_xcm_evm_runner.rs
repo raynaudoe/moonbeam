@@ -21,8 +21,9 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 		use frame_support::dispatch::CallableCallFor;
 		use pallet_evm::{Runner, RunnerError};
 		use precompile_utils::{prelude::*, evm::handle::with_precompile_handle};
-		use sp_core::U256;
+		use sp_core::{H160, H256, U256};
 		use sp_runtime::DispatchError;
+		use sp_weights::Weight;
 		use sp_std::vec::Vec;
 		use xcm_primitives::{EthereumXcmTransaction, EthereumXcmTransactionV2};
 		
@@ -50,7 +51,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -139,7 +140,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -159,7 +160,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -178,7 +179,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				max_priority_fee_per_gas: Option<U256>,
 				nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				is_transactional: bool,
 				validate: bool,
 				weight_limit: Option<Weight>,
@@ -234,7 +235,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_weight_limit: Option<Weight>,
 				_proof_size_base_cost: Option<u64>,

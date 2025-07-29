@@ -4,7 +4,7 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 15,
+  "iteration": 16,
   "error_groups": [
     {
       "id": "error_group_collective_weights",
@@ -48,11 +48,17 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbeam/src/weights/pallet_identity.rs",
         "runtime/moonbase/src/weights/pallet_identity.rs",
         "runtime/moonriver/src/weights/pallet_identity.rs"
+      ],
+      "errors_fixed": 1,
+      "errors_remaining": 0,
+      "fix_confidence": 0.9,
+      "scout_prs_used": [
+        "PR-5554"
       ]
     },
     {
@@ -116,15 +122,16 @@
       ]
     }
   ],
-  "completed_groups": 2,
+  "completed_groups": 4,
   "final_check": {
     "error_count": 32,
     "iteration": 14,
     "can_retry": true
   },
   "test_phase": {
-    "started_at": "2025-07-23T13:24:22Z",
-    "iteration": 6,
+    "started_at": "2025-07-29T10:37:27Z",
+    "iteration": 0,
     "test_groups": []
-  }
+  },
+  "diagnose_result": "non_target_errors"
 }
