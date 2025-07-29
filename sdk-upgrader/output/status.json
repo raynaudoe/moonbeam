@@ -4,29 +4,29 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 28,
+  "iteration": 30,
   "error_groups": [
     {
-      "id": "runtime_u256_h160_imports",
-      "symbol": "U256/H160 imports",
-      "description": "Runtime xcm_config files missing U256 imports and have H160 type mismatches after macro expansion",
-      "error_count": 9,
+      "id": "h160_type_mismatch_final",
+      "symbol": "H160 type mismatch",
+      "description": "Macro expansion expects primitive_types::H160 but gets sp_core::H160",
+      "error_count": 3,
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs"
       ],
-      "primary_error": "cannot find type U256 in this scope, mismatched types H160",
+      "primary_error": "expected primitive_types::H160, found sp_core::H160",
       "status": "pending",
       "errors_fixed": 0,
-      "errors_remaining": 9,
+      "errors_remaining": 3,
       "fix_confidence": 0
     }
   ],
   "completed_groups": 0,
   "final_check": {
-    "error_count": 9,
-    "iteration": 27,
+    "error_count": 3,
+    "iteration": 29,
     "can_retry": true
   },
   "test_phase": {

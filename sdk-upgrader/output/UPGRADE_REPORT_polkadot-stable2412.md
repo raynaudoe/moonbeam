@@ -123,3 +123,14 @@
 - Based on Scout PR-5886
 - Status: COMPLETED
 - All 6 errors fixed
+
+
+### Error Group: runtime_u256_h160_imports
+✓ Fixed U256/H160 imports (confidence: 0.85)
+- Error group: runtime_u256_h160_imports
+- Fixed compilation errors related to missing U256 imports
+- Updated runtime/moonbase/src/xcm_config.rs, runtime/moonriver/src/xcm_config.rs, runtime/moonbeam/src/xcm_config.rs:
+  - Added U256 to existing sp_core import: `use sp_core::{ConstU32, H160, H256, U256};`
+- The macro impl_evm_runner_precompile_or_eth_xcm requires U256 and H160 types in scope
+- Status: COMPLETED
+- All 9 errors fixed

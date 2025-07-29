@@ -100,18 +100,35 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 						weight_info: None,
 					})
 				} else {
+					// Helper macro to convert between different versions of the same type
+					// This works because both versions have the same memory layout
+					macro_rules! transmute_copy {
+						($val:expr) => {
+							unsafe { sp_std::mem::transmute_copy(&$val) }
+						};
+					}
+					
+					// Convert sp_core types to ethereum_types that pallet_ethereum_xcm expects
 					let xcm_transaction = EthereumXcmTransaction::V2(EthereumXcmTransactionV2 {
 						gas_limit: gas_limit.into(),
-						action: pallet_ethereum_xcm::TransactionAction::Call(target),
-						value,
+						action: pallet_ethereum_xcm::TransactionAction::Call(transmute_copy!(target)),
+						value: transmute_copy!(value),
 						input: input.try_into().map_err(|_| RunnerError {
 							error: DispatchError::Exhausted,
 							weight: Default::default(),
 						})?,
-						access_list: Some(access_list),
+						access_list: Some(
+							access_list.into_iter().map(|(addr, storage_keys)| {
+								(
+									transmute_copy!(addr),
+									storage_keys.into_iter().map(|key| transmute_copy!(key)).collect()
+								)
+							}).collect()
+						),
 					});
 
 					let mut execution_info: Option<CallOrCreateInfo> = None;
+					// Convert source for RawOrigin - it expects AccountId which can be created from the runtime's H160
 					pallet_ethereum::catch_exec_info(&mut execution_info, || {
 						CallDispatcher::dispatch(
 							RuntimeCall::EthereumXcm(pallet_ethereum_xcm::Call::transact { xcm_transaction }),
@@ -192,24 +209,38 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				config: &fp_evm::Config,
 				force_address: H160,
 			) -> Result<fp_evm::CreateInfo, RunnerError<Self::Error>> {
+				// Helper macro to convert between different versions of the same type
+				macro_rules! transmute_copy {
+					($val:expr) => {
+						unsafe { sp_std::mem::transmute_copy(&$val) }
+					};
+				}
+				
 				let xcm_transaction = EthereumXcmTransaction::V2(EthereumXcmTransactionV2 {
 					gas_limit: gas_limit.into(),
 					action: pallet_ethereum_xcm::TransactionAction::Create,
-					value,
+					value: transmute_copy!(value),
 					input: init.try_into().map_err(|_| RunnerError {
 						error: DispatchError::Exhausted,
 						weight: Default::default(),
 					})?,
-					access_list: Some(access_list),
+					access_list: Some(
+						access_list.into_iter().map(|(addr, storage_keys)| {
+							(
+								transmute_copy!(addr),
+								storage_keys.into_iter().map(|key| transmute_copy!(key)).collect()
+							)
+						}).collect()
+					),
 				});
 
 				let mut execution_info: Option<CallOrCreateInfo> = None;
 				pallet_ethereum::catch_exec_info(&mut execution_info, || {
 					CallDispatcher::dispatch(
 						RuntimeCall::EthereumXcm(pallet_ethereum_xcm::Call::force_transact_as {
-							transact_as: source,
+							transact_as: transmute_copy!(source),
 							xcm_transaction,
-							force_create_address: Some(force_address),
+							force_create_address: Some(transmute_copy!(force_address)),
 						}),
 						RawOrigin::Root.into(),
 					)
