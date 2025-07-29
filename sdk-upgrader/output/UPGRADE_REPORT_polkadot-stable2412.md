@@ -2,6 +2,19 @@
 
 ## Error Group Fixes
 
+### Error Group: ethereum_imports
+✓ Fixed ethereum imports (confidence: 0.9)
+- Error group: final_ethereum_imports
+- Fixed compilation errors related to ethereum imports in macro impl_evm_runner_precompile_or_eth_xcm
+- Updated runtime/common/src/impl_xcm_evm_runner.rs:
+  - Changed `use ethereum::{H160, H256, U256};` to `use sp_core::{H160, H256, U256};`
+- The macro was trying to import types from ethereum crate which is not available in runtime context
+- Runtime files consistently use sp_core for these primitive types
+- Status: COMPLETED
+- All 6 errors fixed
+
+## Error Group Fixes
+
 ### Error Group: primitive_types_missing_import
 ✓ Fixed primitive_types import (confidence: 0.9)
 - Error group: primitive_types_missing_import
@@ -48,6 +61,21 @@
 ✓ Fixed authorization_list_revert (confidence: 0.9)
 - Error group: error_group_h160_h256_duplicate 
 - Fixed compilation errors related to duplicate H160 and H256 imports
+
+### Error Group: final_h160_mismatch
+✓ Fixed Final H160 type conflict (confidence: 0.95)
+- Error group: final_h160_mismatch
+- Fixed compilation errors related to H160 type conflict between macro and runtime aliases
+- Updated runtime/common/src/impl_xcm_evm_runner.rs:
+  - Removed the `sp_core as ethereum_types` alias
+  - Changed imports to use `primitive_types::{H160, H256, U256}` directly
+- Removed conflicting `sp_core as primitive_types` alias from runtime files:
+  - runtime/moonbase/src/xcm_config.rs
+  - runtime/moonbeam/src/xcm_config.rs
+  - runtime/moonriver/src/xcm_config.rs
+- The issue was that both the macro and runtime files were creating different aliases for sp_core
+- Status: COMPLETED
+- All 3 errors fixed
 - Removed duplicate `use sp_core::{H160, H256};` import from:
   - runtime/moonbase/src/xcm_config.rs
   - runtime/moonbeam/src/xcm_config.rs

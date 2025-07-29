@@ -36,9 +36,7 @@ use sp_runtime::{
 };
 
 use frame_system::{EnsureRoot, RawOrigin};
-use sp_core::ConstU32;
-// Removed H160, H256 import - already imported by impl_evm_runner_precompile_or_eth_xcm macro
-// Removed sp_core alias - macro now imports primitive_types directly
+use sp_core::{ConstU32, H160, H256};
 
 
 use xcm_builder::{

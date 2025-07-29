@@ -4,26 +4,29 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 24,
+  "iteration": 26,
   "error_groups": [
     {
-      "id": "final_h160_mismatch",
-      "symbol": "Final H160 type conflict",
-      "description": "Conflict between macro using ethereum_types and runtime using primitive_types aliases",
-      "error_count": 3,
+      "id": "final_ethereum_imports",
+      "symbol": "ethereum imports",
+      "description": "Macro requires ethereum imports but runtime files dont have ethereum crate",
+      "error_count": 6,
       "files": [
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs",
         "runtime/moonbase/src/xcm_config.rs"
       ],
-      "primary_error": "expected primitive_types::H160, found sp_core::H160 - alias conflict",
-      "status": "pending"
+      "primary_error": "unresolved imports ethereum::H160, ethereum::H256, ethereum::U256",
+      "status": "completed",
+      "errors_fixed": 6,
+      "errors_remaining": 0,
+      "fix_confidence": 0.9
     }
   ],
-  "completed_groups": 0,
+  "completed_groups": 1,
   "final_check": {
-    "error_count": 3,
-    "iteration": 23,
+    "error_count": 6,
+    "iteration": 26,
     "can_retry": true
   },
   "test_phase": {
