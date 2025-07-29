@@ -37,7 +37,7 @@ use sp_runtime::{
 
 use frame_system::{EnsureRoot, RawOrigin};
 use sp_core::ConstU32;
-use sp_core::{H160, H256};
+// Removed H160, H256 import - already imported by impl_evm_runner_precompile_or_eth_xcm macro
 
 use xcm_builder::{
 	AccountKey20Aliases, AllowKnownQueryResponses, AllowSubscriptionsFrom,

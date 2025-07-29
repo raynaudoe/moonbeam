@@ -2,6 +2,19 @@
 
 ## Error Group Fixes
 
+✓ Fixed H160_H256_duplicate (confidence: 0.9)
+- Error group: error_group_h160_h256_duplicate 
+- Fixed compilation errors related to duplicate H160 and H256 imports
+- Removed duplicate `use sp_core::{H160, H256};` import from:
+  - runtime/moonbase/src/xcm_config.rs
+  - runtime/moonbeam/src/xcm_config.rs
+  - runtime/moonriver/src/xcm_config.rs
+- The macro `moonbeam_runtime_common::impl_evm_runner_precompile_or_eth_xcm!()` already imports H160 and H256
+- Fix based on existing Weight_duplicate pattern
+- Status: VALIDATING
+
+## Error Group Fixes
+
 ✓ Fixed Weight_duplicate (confidence: 0.9)
 - Error group: error_group_weight_duplicate
 - Fixed compilation errors related to duplicate Weight imports
