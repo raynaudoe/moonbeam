@@ -46,12 +46,19 @@
           "column": 5
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
-      ]
+      ],
+      "fix_metadata": {
+        "errors_fixed": 3,
+        "errors_remaining": 0,
+        "fix_confidence": 0.85,
+        "scout_prs_used": [],
+        "fix_description": "Changed import from primitive_types to sp_core for H160 and H256 types"
+      }
     },
     {
       "id": "error_group_validate_method",
@@ -152,7 +159,7 @@
       ]
     }
   ],
-  "completed_groups": 1,
+  "completed_groups": 3,
   "final_check": {
     "error_count": 32,
     "iteration": 14,

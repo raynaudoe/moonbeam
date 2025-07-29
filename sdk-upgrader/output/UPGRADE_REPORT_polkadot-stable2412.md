@@ -232,3 +232,6 @@ The fix was applied to the `validate_transaction` implementation in the `TaggedT
   - runtime/moonriver/src/xcm_config.rs
 - H160 and H256 types are now exported from sp_core in polkadot-stable2412
 - Status: COMPLETED
+✓ Fixed validate_method (confidence: 0.7)
+- Changed authorization_list parameter type in validate method from Vec<AuthorizationListItem> to (U256, H160, U256, Option<H160>)
+- This matches the updated Runner trait signature in polkadot-stable2412
