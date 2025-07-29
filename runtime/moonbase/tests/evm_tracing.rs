@@ -50,6 +50,7 @@ mod tests {
 						value: 1 * UNIT,
 					}
 					.into(),
+				None,
 				);
 				let transaction = ethereum_transaction(VALID_ETH_TX);
 				let eth_uxt = unchecked_eth_tx(VALID_ETH_TX);
@@ -89,6 +90,7 @@ mod tests {
 						value: 1 * UNIT,
 					}
 					.into(),
+				None,
 				);
 				let eth_uxt = unchecked_eth_tx(VALID_ETH_TX);
 				let eth_tx = ethereum_transaction(VALID_ETH_TX);

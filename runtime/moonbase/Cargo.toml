@@ -76,6 +76,8 @@ pallet-evm-precompile-p256verify = { workspace = true }
 precompile-foreign-asset-migrator = { workspace = true }
 
 # Moonbeam tracing
+ethereum = { workspace = true }
+evm = { workspace = true }
 evm-tracing-events = { workspace = true, optional = true }
 moonbeam-evm-tracer = { workspace = true, optional = true }
 moonbeam-rpc-primitives-debug = { workspace = true }
@@ -130,6 +132,7 @@ sp-weights = { workspace = true }
 sp-genesis-builder = { workspace = true }
 
 # Frontier
+fp-ethereum = { workspace = true }
 fp-evm = { workspace = true }
 fp-rpc = { workspace = true }
 fp-self-contained = { workspace = true, features = ["serde"] }
@@ -215,7 +218,10 @@ std = [
 	"cumulus-primitives-timestamp/std",
 	"cumulus-primitives-utility/std",
 	"cumulus-primitives-storage-weight-reclaim/std",
+	"ethereum/std",
+	"evm/std",
 	"evm-tracing-events/std",
+	"fp-ethereum/std",
 	"fp-evm/std",
 	"fp-rpc/std",
 	"fp-self-contained/std",

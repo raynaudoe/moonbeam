@@ -302,4 +302,48 @@ impl<T: frame_system::Config> pallet_collective_open_tech_committee::WeightInfo 
 			.saturating_add(T::DbWeight::get().writes(3_u64))
 			.saturating_add(Weight::from_parts(0, 32).saturating_mul(p.into()))
 	}
+	
+	/// Storage: `TechCommitteeCollective::ProposalOf` (r:1 w:1)
+	/// Proof: `TechCommitteeCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `TechCommitteeCollective::Proposals` (r:1 w:1)
+	/// Proof: `TechCommitteeCollective::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `TechCommitteeCollective::Voting` (r:0 w:1)
+	/// Proof: `TechCommitteeCollective::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// The range of component `p` is `[1, 100]`.
+	/// The range of component `m` is `[1, 100]`.
+	fn kill(p: u32, m: u32, ) -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `513 + m * (32 ±0) + p * (32 ±0)`
+		//  Estimated: `3928 + m * (32 ±0) + p * (32 ±0)`
+		// Minimum execution time: 20_000_000 picoseconds.
+		Weight::from_parts(21_000_000, 3928)
+			// Standard Error: 10_000
+			.saturating_add(Weight::from_parts(50_000, 0).saturating_mul(m.into()))
+			// Standard Error: 10_000
+			.saturating_add(Weight::from_parts(60_000, 0).saturating_mul(p.into()))
+			.saturating_add(T::DbWeight::get().reads(2_u64))
+			.saturating_add(T::DbWeight::get().writes(3_u64))
+			.saturating_add(Weight::from_parts(0, 32).saturating_mul(m.into()))
+			.saturating_add(Weight::from_parts(0, 32).saturating_mul(p.into()))
+	}
+	
+	/// Storage: `TechCommitteeCollective::ProposalOf` (r:1 w:0)
+	/// Proof: `TechCommitteeCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `TechCommitteeCollective::CostOf` (r:1 w:0)
+	/// Proof: `TechCommitteeCollective::CostOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `Balances::Holds` (r:1 w:1)
+	/// Proof: `Balances::Holds` (`max_values`: None, `max_size`: Some(157), added: 2632, mode: `Measured`)
+	/// Storage: `TechCommitteeCollective::Proposals` (r:1 w:1)
+	/// Proof: `TechCommitteeCollective::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `TechCommitteeCollective::Voting` (r:0 w:1)
+	/// Proof: `TechCommitteeCollective::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	fn release_proposal_cost() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `1863`
+		//  Estimated: `5328`
+		// Minimum execution time: 65_000_000 picoseconds.
+		Weight::from_parts(69_000_000, 5328)
+			.saturating_add(T::DbWeight::get().reads(4_u64))
+			.saturating_add(T::DbWeight::get().writes(3_u64))
+	}
 }

@@ -468,7 +468,12 @@ impl From<xcm::v3::Location> for AssetType {
 impl TryFrom<Location> for AssetType {
 	type Error = ();
 	fn try_from(location: Location) -> Result<Self, Self::Error> {
-		Ok(Self::Xcm(location.try_into()?))
+		use xcm::v3::Location as LocationV3;
+		
+		// Convert from v5 to v3
+		let v3_location: LocationV3 = location.try_into()
+			.map_err(|_| ())?;
+		Ok(Self::Xcm(v3_location))
 	}
 }
 
@@ -484,7 +489,8 @@ impl Into<Option<Location>> for AssetType {
 	fn into(self) -> Option<Location> {
 		match self {
 			Self::Xcm(location) => {
-				xcm_builder::WithLatestLocationConverter::convert_back(&location)
+				// Convert from v3 to v5
+				location.try_into().ok()
 			}
 		}
 	}

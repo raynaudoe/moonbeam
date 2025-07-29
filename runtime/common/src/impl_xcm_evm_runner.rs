@@ -25,6 +25,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 		use sp_runtime::DispatchError;
 		use sp_std::vec::Vec;
 		use xcm_primitives::{EthereumXcmTransaction, EthereumXcmTransactionV2};
+		
 
 		pub struct EvmRunnerPrecompileOrEthXcm<CallDispatcher, Runtime>(
 			core::marker::PhantomData<(CallDispatcher, Runtime)>,
@@ -49,10 +50,11 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
+				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
-				_transaction_len: Option<u64>,
+				_proof_size_base_cost: Option<u64>,
 				_config: &fp_evm::Config,
 			) -> Result<CallInfo, RunnerError<Self::Error>> {
 				// The `with_precompile_handle` function will execute the closure (and return the
@@ -137,10 +139,11 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
+				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
-				_transaction_len: Option<u64>,
+				_proof_size_base_cost: Option<u64>,
 				_config: &fp_evm::Config,
 			) -> Result<fp_evm::CreateInfo, RunnerError<Self::Error>> {
 				unimplemented!()
@@ -156,10 +159,11 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
+				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
-				_transaction_len: Option<u64>,
+				_proof_size_base_cost: Option<u64>,
 				_config: &fp_evm::Config,
 			) -> Result<fp_evm::CreateInfo, RunnerError<Self::Error>> {
 				unimplemented!()
@@ -174,6 +178,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				max_priority_fee_per_gas: Option<U256>,
 				nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
+				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
 				is_transactional: bool,
 				validate: bool,
 				weight_limit: Option<Weight>,
@@ -229,10 +234,11 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
+				_authorization_list: Vec<fp_ethereum::AuthorizationListItem>,
 				_is_transactional: bool,
 				_weight_limit: Option<Weight>,
-				_transaction_len: Option<u64>,
-				_evm_config: &fp_evm::Config,
+				_proof_size_base_cost: Option<u64>,
+				_evm_config: &evm::Config,
 			) -> Result<(), RunnerError<Self::Error>> {
 				unimplemented!()
 			}

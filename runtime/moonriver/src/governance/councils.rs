@@ -41,6 +41,12 @@ impl pallet_collective::Config<TreasuryCouncilInstance> for Runtime {
 	type WeightInfo = moonriver_weights::pallet_collective_treasury_council::WeightInfo<Runtime>;
 	type SetMembersOrigin = referenda::GeneralAdminOrRoot;
 	type MaxProposalWeight = MaxProposalWeight;
+	/// Origin from which a proposal in any status may be disapproved without associated cost for the proposer
+	type DisapproveOrigin = EnsureRoot<AccountId>;
+	/// Origin from which any malicious proposal may be killed with associated cost for a proposer
+	type KillOrigin = EnsureRoot<AccountId>;
+	/// Mechanism to assess the necessity of some cost for publishing and storing a proposal.
+	type Consideration = ();
 }
 
 impl pallet_collective::Config<OpenTechCommitteeInstance> for Runtime {
@@ -58,4 +64,10 @@ impl pallet_collective::Config<OpenTechCommitteeInstance> for Runtime {
 	type WeightInfo = moonriver_weights::pallet_collective_open_tech_committee::WeightInfo<Runtime>;
 	type SetMembersOrigin = referenda::GeneralAdminOrRoot;
 	type MaxProposalWeight = MaxProposalWeight;
+	/// Origin from which a proposal in any status may be disapproved without associated cost for the proposer
+	type DisapproveOrigin = EnsureRoot<AccountId>;
+	/// Origin from which any malicious proposal may be killed with associated cost for a proposer
+	type KillOrigin = EnsureRoot<AccountId>;
+	/// Mechanism to assess the necessity of some cost for publishing and storing a proposal.
+	type Consideration = ();
 }

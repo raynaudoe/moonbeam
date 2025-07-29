@@ -29,7 +29,7 @@ use cumulus_primitives_core::ParaId;
 use fp_evm::GenesisAccount;
 use nimbus_primitives::NimbusId;
 use pallet_transaction_payment::Multiplier;
-use parachains_common::genesis_config_helpers::get_from_seed;
+// get_from_seed is defined locally in this file
 use sp_genesis_builder::PresetId;
 use sp_runtime::{Perbill, Percent};
 
@@ -38,6 +38,12 @@ const PARACHAIN_BOND_RESERVE_PERCENT: Percent = Percent::from_percent(30);
 const BLOCKS_PER_ROUND: u32 = 6 * HOURS;
 const BLOCKS_PER_YEAR: u32 = 31_557_600 / 12;
 const NUM_SELECTED_CANDIDATES: u32 = 8;
+
+// Helper function to generate NimbusId from seed
+fn get_from_seed<TPublic: sp_core::Public>(seed: &str) -> TPublic {
+	TPublic::from_string(&format!("//{}", seed), None)
+		.expect("static values are valid; qed")
+}
 
 pub fn moonbeam_inflation_config() -> InflationInfo<Balance> {
 	fn to_round_inflation(annual: Range<Perbill>) -> Range<Perbill> {

@@ -297,6 +297,7 @@ fn txpool_runtime_api_extrinsic_filter() {
 				value: 1 * GLMR,
 			}
 			.into(),
+			None,
 		);
 		let eth_uxt = unchecked_eth_tx(VALID_ETH_TX);
 		let txpool = <Runtime as TxPoolRuntimeApi<moonbeam_runtime::Block>>::extrinsic_filter(

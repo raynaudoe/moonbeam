@@ -346,70 +346,97 @@ impl<T: frame_system::Config> pallet_identity::WeightInfo for WeightInfo<T> {
 	/// Storage: `Identity::UsernameAuthorities` (r:1 w:1)
 	/// Proof: `Identity::UsernameAuthorities` (`max_values`: None, `max_size`: Some(40), added: 2515, mode: `MaxEncodedLen`)
 	/// Storage: `Identity::AccountOfUsername` (r:1 w:1)
-	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(81), added: 2556, mode: `MaxEncodedLen`)
 	/// Storage: `Identity::PendingUsernames` (r:1 w:0)
-	/// Proof: `Identity::PendingUsernames` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::PendingUsernames` (`max_values`: None, `max_size`: Some(85), added: 2560, mode: `MaxEncodedLen`)
 	/// Storage: `Identity::IdentityOf` (r:1 w:1)
-	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7560), added: 10035, mode: `MaxEncodedLen`)
-	fn set_username_for() -> Weight {
+	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7572), added: 10047, mode: `MaxEncodedLen`)
+	fn set_username_for(_p: u32) -> Weight {
 		// Proof Size summary in bytes:
-		//  Measured:  `67`
-		//  Estimated: `11025`
-		// Minimum execution time: 70_792_000 picoseconds.
-		Weight::from_parts(71_991_000, 11025)
-			.saturating_add(T::DbWeight::get().reads(4_u64))
-			.saturating_add(T::DbWeight::get().writes(3_u64))
+		//  Measured:  `80`
+		//  Estimated: `11037`
+		// Minimum execution time: 64_724_000 picoseconds.
+		Weight::from_parts(66_597_000, 0)
+			.saturating_add(Weight::from_parts(0, 11037))
+			.saturating_add(T::DbWeight::get().reads(4))
+			.saturating_add(T::DbWeight::get().writes(3))
 	}
 	/// Storage: `Identity::PendingUsernames` (r:1 w:1)
-	/// Proof: `Identity::PendingUsernames` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::PendingUsernames` (`max_values`: None, `max_size`: Some(85), added: 2560, mode: `MaxEncodedLen`)
 	/// Storage: `Identity::IdentityOf` (r:1 w:1)
-	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7560), added: 10035, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7572), added: 10047, mode: `MaxEncodedLen`)
 	/// Storage: `Identity::AccountOfUsername` (r:0 w:1)
-	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(81), added: 2556, mode: `MaxEncodedLen`)
 	fn accept_username() -> Weight {
 		// Proof Size summary in bytes:
-		//  Measured:  `101`
-		//  Estimated: `11025`
-		// Minimum execution time: 21_798_000 picoseconds.
-		Weight::from_parts(22_222_000, 11025)
-			.saturating_add(T::DbWeight::get().reads(2_u64))
-			.saturating_add(T::DbWeight::get().writes(3_u64))
+		//  Measured:  `115`
+		//  Estimated: `11037`
+		// Minimum execution time: 19_538_000 picoseconds.
+		Weight::from_parts(20_204_000, 0)
+			.saturating_add(Weight::from_parts(0, 11037))
+			.saturating_add(T::DbWeight::get().reads(2))
+			.saturating_add(T::DbWeight::get().writes(3))
 	}
 	/// Storage: `Identity::PendingUsernames` (r:1 w:1)
-	/// Proof: `Identity::PendingUsernames` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
-	fn remove_expired_approval() -> Weight {
+	/// Proof: `Identity::PendingUsernames` (`max_values`: None, `max_size`: Some(85), added: 2560, mode: `MaxEncodedLen`)
+	fn remove_expired_approval(_p: u32) -> Weight {
 		// Proof Size summary in bytes:
-		//  Measured:  `101`
-		//  Estimated: `3538`
-		// Minimum execution time: 14_174_000 picoseconds.
-		Weight::from_parts(16_022_000, 3538)
-			.saturating_add(T::DbWeight::get().reads(1_u64))
-			.saturating_add(T::DbWeight::get().writes(1_u64))
+		//  Measured:  `115`
+		//  Estimated: `3550`
+		// Minimum execution time: 16_000_000 picoseconds.
+		Weight::from_parts(19_354_000, 0)
+			.saturating_add(Weight::from_parts(0, 3550))
+			.saturating_add(T::DbWeight::get().reads(1))
+			.saturating_add(T::DbWeight::get().writes(1))
 	}
 	/// Storage: `Identity::AccountOfUsername` (r:1 w:0)
-	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(81), added: 2556, mode: `MaxEncodedLen`)
 	/// Storage: `Identity::IdentityOf` (r:1 w:1)
-	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7560), added: 10035, mode: `MaxEncodedLen`)
+	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7572), added: 10047, mode: `MaxEncodedLen`)
 	fn set_primary_username() -> Weight {
 		// Proof Size summary in bytes:
-		//  Measured:  `232`
-		//  Estimated: `11025`
-		// Minimum execution time: 18_554_000 picoseconds.
-		Weight::from_parts(18_994_000, 11025)
-			.saturating_add(T::DbWeight::get().reads(2_u64))
-			.saturating_add(T::DbWeight::get().writes(1_u64))
+		//  Measured:  `257`
+		//  Estimated: `11037`
+		// Minimum execution time: 13_705_000 picoseconds.
+		Weight::from_parts(14_056_000, 0)
+			.saturating_add(Weight::from_parts(0, 11037))
+			.saturating_add(T::DbWeight::get().reads(2))
+			.saturating_add(T::DbWeight::get().writes(1))
 	}
-	/// Storage: `Identity::AccountOfUsername` (r:1 w:1)
-	/// Proof: `Identity::AccountOfUsername` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
-	/// Storage: `Identity::IdentityOf` (r:1 w:0)
-	/// Proof: `Identity::IdentityOf` (`max_values`: None, `max_size`: Some(7560), added: 10035, mode: `MaxEncodedLen`)
-	fn remove_dangling_username() -> Weight {
-		// Proof Size summary in bytes:
-		//  Measured:  `86`
-		//  Estimated: `11025`
-		// Minimum execution time: 13_034_000 picoseconds.
-		Weight::from_parts(13_460_000, 11025)
-			.saturating_add(T::DbWeight::get().reads(2_u64))
-			.saturating_add(T::DbWeight::get().writes(1_u64))
+	fn unbind_username() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn remove_username() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn kill_username(_p: u32) -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn migration_v2_authority_step() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn migration_v2_username_step() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn migration_v2_identity_step() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn migration_v2_pending_username_step() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn migration_v2_cleanup_authority_step() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
+	}
+	fn migration_v2_cleanup_username_step() -> Weight {
+		// Fixed based on PR-5554
+		Weight::zero()
 	}
 }

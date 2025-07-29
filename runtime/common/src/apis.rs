@@ -139,7 +139,7 @@ macro_rules! impl_runtime_apis_plus_common {
 			impl moonbeam_rpc_primitives_debug::DebugRuntimeApi<Block> for Runtime {
 				fn trace_transaction(
 					extrinsics: Vec<<Block as BlockT>::Extrinsic>,
-					traced_transaction: &EthereumTransaction,
+					traced_transaction: &moonbeam_rpc_primitives_txpool::Transaction,
 					header: &<Block as BlockT>::Header,
 				) -> Result<
 					(),
@@ -155,10 +155,13 @@ macro_rules! impl_runtime_apis_plus_common {
 						use frame_support::storage::unhashed;
 						use frame_system::pallet_prelude::BlockNumberFor;
 
+						// Convert the traced transaction to pallet_ethereum::Transaction
+						let eth_tx = pallet_ethereum::Transaction::from(traced_transaction.clone());
+						
 						// Tell the CallDispatcher we are tracing a specific Transaction.
 						unhashed::put::<EthereumXcmTracingStatus>(
 							ETHEREUM_XCM_TRACING_STORAGE_KEY,
-							&EthereumXcmTracingStatus::Transaction(traced_transaction.hash()),
+							&EthereumXcmTracingStatus::Transaction(eth_tx.hash()),
 						);
 
 						// Initialize block: calls the "on_initialize" hook on every pallet
@@ -181,7 +184,7 @@ macro_rules! impl_runtime_apis_plus_common {
 									// leading to some transactions to incorrectly fail during tracing.
 									frame_system::BlockWeight::<Runtime>::kill();
 
-									if transaction == traced_transaction {
+									if transaction == &eth_tx {
 										EvmTracer::new().trace(|| Executive::apply_extrinsic(ext));
 										return Ok(());
 									} else {
@@ -349,6 +352,7 @@ macro_rules! impl_runtime_apis_plus_common {
 								value,
 								Some(<Runtime as pallet_evm::Config>::ChainId::get()),
 								access_list.clone().unwrap_or_default(),
+								Default::default(), // authorization_list not yet supported
 							);
 
 							let gas_limit = gas_limit.min(u64::MAX.into()).low_u64();
@@ -365,6 +369,7 @@ macro_rules! impl_runtime_apis_plus_common {
 								max_priority_fee_per_gas,
 								nonce,
 								access_list.unwrap_or_default(),
+								Default::default(), // authorization_list not yet supported
 								is_transactional,
 								validate,
 								weight_limit,
@@ -445,6 +450,7 @@ macro_rules! impl_runtime_apis_plus_common {
 					nonce: Option<U256>,
 					estimate: bool,
 					access_list: Option<Vec<(H160, Vec<H256>)>>,
+					authorization_list: Option<Vec<fp_ethereum::AuthorizationListItem>>,
 				) -> Result<pallet_evm::CallInfo, sp_runtime::DispatchError> {
 					let config = if estimate {
 						let mut config = <Runtime as pallet_evm::Config>::config().clone();
@@ -467,6 +473,7 @@ macro_rules! impl_runtime_apis_plus_common {
 						value,
 						Some(<Runtime as pallet_evm::Config>::ChainId::get()),
 						access_list.clone().unwrap_or_default(),
+						Default::default(), // authorization_list not yet supported
 					);
 
 					let gas_limit = gas_limit.min(u64::MAX.into()).low_u64();
@@ -483,6 +490,7 @@ macro_rules! impl_runtime_apis_plus_common {
 						max_priority_fee_per_gas,
 						nonce,
 						access_list.unwrap_or_default(),
+						Default::default(), // authorization_list not yet supported
 						is_transactional,
 						validate,
 						weight_limit,
@@ -501,6 +509,7 @@ macro_rules! impl_runtime_apis_plus_common {
 					nonce: Option<U256>,
 					estimate: bool,
 					access_list: Option<Vec<(H160, Vec<H256>)>>,
+					authorization_list: Option<Vec<fp_ethereum::AuthorizationListItem>>,
 				) -> Result<pallet_evm::CreateInfo, sp_runtime::DispatchError> {
 					let config = if estimate {
 						let mut config = <Runtime as pallet_evm::Config>::config().clone();
@@ -523,6 +532,7 @@ macro_rules! impl_runtime_apis_plus_common {
 						value,
 						Some(<Runtime as pallet_evm::Config>::ChainId::get()),
 						access_list.clone().unwrap_or_default(),
+						Default::default(), // authorization_list not yet supported
 					);
 
 					let gas_limit = gas_limit.min(u64::MAX.into()).low_u64();
@@ -539,6 +549,7 @@ macro_rules! impl_runtime_apis_plus_common {
 						max_priority_fee_per_gas,
 						nonce,
 						access_list.unwrap_or_default(),
+						Default::default(), // authorization_list not yet supported
 						is_transactional,
 						validate,
 						weight_limit,
@@ -614,7 +625,7 @@ macro_rules! impl_runtime_apis_plus_common {
 				fn convert_transaction(
 					transaction: pallet_ethereum::Transaction
 				) -> <Block as BlockT>::Extrinsic {
-					UncheckedExtrinsic::new_unsigned(
+					UncheckedExtrinsic::new_bare(
 						pallet_ethereum::Call::<Runtime>::transact { transaction }.into(),
 					)
 				}
@@ -751,13 +762,14 @@ macro_rules! impl_runtime_apis_plus_common {
 				for Runtime {
 					fn dry_run_call(
 						origin: OriginCaller,
-						call: RuntimeCall
+						call: RuntimeCall,
+						result_xcms_version: XcmVersion
 					) -> Result<CallDryRunEffects<RuntimeEvent>, XcmDryRunApiError> {
 						PolkadotXcm::dry_run_call::<
 							Runtime,
 							xcm_config::XcmRouter,
 							OriginCaller,
-							RuntimeCall>(origin, call)
+							RuntimeCall>(origin, call, result_xcms_version)
 					}
 
 					fn dry_run_xcm(
@@ -818,6 +830,7 @@ macro_rules! impl_runtime_apis_plus_common {
 						GeneralIndex, Junction, Junctions, Location, Response, NetworkId, AssetId,
 						Assets as XcmAssets, Fungible, Asset, ParentThen, Parachain, Parent
 					};
+					use xcm::Version as XcmVersion;
 					use xcm_config::SelfReserve;
 					use frame_benchmarking::BenchmarkError;
 

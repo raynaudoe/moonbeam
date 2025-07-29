@@ -1,0 +1,49 @@
+name: "Cargo Check Error Fix Workflow"
+goal: "Run cargo check and fix all errors until it runs without any error"
+initial_state: "run_cargo_check"
+states:
+  run_cargo_check:
+    prompt: "Run 'cargo check' command and analyze the output. Identify all errors present."
+    tools: ["Bash", "Read", "Grep"]
+    success_criteria: "Cargo check output analyzed and errors identified"
+    transitions:
+      success: "check_errors"
+    timeout: 120
+
+  check_errors:
+    prompt: "Check if there are any errors in the cargo check output. If no errors found, mark as success. If errors exist, categorize them."
+    success_criteria: "Determined whether errors exist or not"
+    transitions:
+      success: "fix_errors"  # Has errors
+      loop: "complete"       # No errors (workflow complete)
+    timeout: 60
+
+  fix_errors:
+    prompt: "Fix the identified cargo check errors by modifying the relevant files. Focus on the first error group if multiple exist."
+    tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob"]
+    success_criteria: "Made code changes to address identified errors"
+    transitions:
+      success: "run_cargo_check"  # Loop back to check again
+      failure: "analyze_failure"
+    timeout: 300
+    retry_count: 2
+
+  analyze_failure:
+    prompt: "Analyze why the fixes failed and try an alternative approach to fix the errors."
+    tools: ["Read", "WebSearch", "Grep"]
+    success_criteria: "Alternative fix strategy identified"
+    transitions:
+      success: "fix_errors"
+      failure: "error_state"
+    timeout: 180
+
+  error_state:
+    prompt: "Document the errors that could not be fixed and provide recommendations."
+    success_criteria: "Error documentation complete"
+    transitions:
+      success: "complete"
+
+  complete:
+    prompt: "Cargo check runs without errors. Summarize all fixes applied."
+    success_criteria: "Summary provided"
+    transitions: {}

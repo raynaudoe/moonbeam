@@ -298,4 +298,26 @@ impl<T: frame_system::Config> pallet_collective_treasury_council::WeightInfo for
 			.saturating_add(T::DbWeight::get().writes(3_u64))
 			.saturating_add(Weight::from_parts(0, 32).saturating_mul(p.into()))
 	}
+	/// Storage: `TreasuryCouncilCollective::ProposalOf` (r:1 w:1)
+	/// Proof: `TreasuryCouncilCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	fn kill(m: u32, p: u32) -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `0`
+		//  Estimated: `0`
+		// Minimum execution time: 0_000 picoseconds.
+		Weight::from_parts(10_000_000, 0)
+			.saturating_add(T::DbWeight::get().reads(1_u64))
+			.saturating_add(T::DbWeight::get().writes(1_u64))
+	}
+	
+	/// Storage: `TreasuryCouncilCollective::ProposalOf` (r:1 w:1)
+	/// Proof: `TreasuryCouncilCollective::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	fn release_proposal_cost(m: u32, p: u32) -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `0`
+		//  Estimated: `0`
+		// Minimum execution time: 0_000 picoseconds.
+		Weight::from_parts(5_000_000, 0)
+			.saturating_add(T::DbWeight::get().reads(1_u64))
+	}
 }

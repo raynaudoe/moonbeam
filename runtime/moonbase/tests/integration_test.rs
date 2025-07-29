@@ -330,6 +330,7 @@ fn collective_set_members_general_admin_origin_works() {
 					old_count: 2,
 				}
 				.into(),
+			None,
 			),
 		);
 		// OpenTechCommitteeCollective
@@ -343,6 +344,7 @@ fn collective_set_members_general_admin_origin_works() {
 					old_count: 2,
 				}
 				.into(),
+			None,
 			),
 		);
 
@@ -570,6 +572,7 @@ fn transfer_through_evm_to_stake() {
 				target: H160::from(CHARLIE),
 				input: Vec::new(),
 				value: (1_000 * UNIT).into(),
+			None,
 				gas_limit,
 				max_fee_per_gas: U256::from(BASE_FEE_GENISIS),
 				max_priority_fee_per_gas: None,
@@ -730,6 +733,7 @@ fn initialize_crowdloan_addresses_with_batch_and_pay() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[4u8; 32].into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -739,6 +743,7 @@ fn initialize_crowdloan_addresses_with_batch_and_pay() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[5u8; 32].into(),
+			None,
 									Some(AccountId::from(DAVE)),
 									1_500_000 * UNIT
 								)]
@@ -860,6 +865,7 @@ fn initialize_crowdloan_address_and_change_with_relay_key_sig() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									public1.into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -869,6 +875,7 @@ fn initialize_crowdloan_address_and_change_with_relay_key_sig() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									public2.into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -945,6 +952,7 @@ fn claim_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[4u8; 32].into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -954,6 +962,7 @@ fn claim_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[5u8; 32].into(),
+			None,
 									Some(AccountId::from(DAVE)),
 									1_500_000 * UNIT
 								)]
@@ -1036,6 +1045,7 @@ fn is_contributor_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[4u8; 32].into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -1045,6 +1055,7 @@ fn is_contributor_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[5u8; 32].into(),
+			None,
 									Some(AccountId::from(DAVE)),
 									1_500_000 * UNIT
 								)]
@@ -1117,6 +1128,7 @@ fn reward_info_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[4u8; 32].into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -1126,6 +1138,7 @@ fn reward_info_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[5u8; 32].into(),
+			None,
 									Some(AccountId::from(DAVE)),
 									1_500_000 * UNIT
 								)]
@@ -1188,6 +1201,7 @@ fn update_reward_address_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[4u8; 32].into(),
+			None,
 									Some(AccountId::from(CHARLIE)),
 									1_500_000 * UNIT
 								)]
@@ -1197,6 +1211,7 @@ fn update_reward_address_via_precompile() {
 							pallet_crowdloan_rewards::Call::<Runtime>::initialize_reward_vec {
 								rewards: vec![(
 									[5u8; 32].into(),
+			None,
 									Some(AccountId::from(DAVE)),
 									1_500_000 * UNIT
 								)]
@@ -1307,6 +1322,7 @@ fn create_and_manipulate_foreign_asset_using_sibling() {
 		// Create foreign asset
 		assert_ok!(EvmForeignAssets::create_foreign_asset(
 			pallet_xcm::Origin::Xcm(para_location.clone()).into(),
+			None,
 			1,
 			asset_location.clone(),
 			12,
@@ -1329,6 +1345,7 @@ fn create_and_manipulate_foreign_asset_using_sibling() {
 		// Freeze foreign asset
 		assert_ok!(EvmForeignAssets::freeze_foreign_asset(
 			pallet_xcm::Origin::Xcm(para_location.clone()).into(),
+			None,
 			1,
 			true
 		));
@@ -1340,6 +1357,7 @@ fn create_and_manipulate_foreign_asset_using_sibling() {
 		// Unfreeze foreign asset
 		assert_ok!(EvmForeignAssets::unfreeze_foreign_asset(
 			pallet_xcm::Origin::Xcm(para_location.clone()).into(),
+			None,
 			1,
 		));
 		assert_eq!(
@@ -1441,6 +1459,7 @@ fn xcm_asset_erc20_precompiles_transfer() {
 					ForeignAssetsPCall::transfer {
 						to: Address(BOB.into()),
 						value: { 400 * UNIT }.into(),
+			None,
 					},
 				)
 				.expect_cost(24695)
@@ -1502,6 +1521,7 @@ fn xcm_asset_erc20_precompiles_approve() {
 					ForeignAssetsPCall::approve {
 						spender: Address(BOB.into()),
 						value: { 400 * UNIT }.into(),
+			None,
 					},
 				)
 				.expect_cost(15604)
@@ -1523,6 +1543,7 @@ fn xcm_asset_erc20_precompiles_approve() {
 						from: Address(ALICE.into()),
 						to: Address(CHARLIE.into()),
 						value: { 400 * UNIT }.into(),
+			None,
 					},
 				)
 				.expect_cost(29960)
@@ -1599,6 +1620,7 @@ fn xtokens_precompiles_transfer() {
 					XtokensPCall::transfer {
 						currency_address: Address(asset_precompile_address.into()),
 						amount: 500_000_000_000_000u128.into(),
+			None,
 						destination,
 						weight: 4_000_000,
 					},
@@ -1690,6 +1712,7 @@ fn xtokens_precompiles_transfer_multiasset() {
 						// We want to transfer the relay token
 						asset: Location::parent(),
 						amount: 500_000_000_000_000u128.into(),
+			None,
 						destination,
 						weight: 4_000_000,
 					},
@@ -1774,6 +1797,7 @@ fn xtokens_precompiles_transfer_native() {
 					XtokensPCall::transfer {
 						currency_address: Address(asset_precompile_address),
 						amount: { 500 * UNIT }.into(),
+			None,
 						destination,
 						weight: 4_000_000,
 					},
@@ -1902,6 +1926,7 @@ fn initial_gas_fee_is_correct() {
 			TransactionPaymentAsGasPrice::min_gas_price(),
 			(
 				2_500_000_000u128.into(),
+			None,
 				Weight::from_parts(41_742_000u64, 0)
 			)
 		);
@@ -1927,6 +1952,7 @@ fn transfer_ed_0_evm() {
 				target: H160::from(BOB),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
+			None,
 				gas_limit: 21_000u64,
 				max_fee_per_gas: U256::from(BASE_FEE_GENISIS),
 				max_priority_fee_per_gas: None,
@@ -1957,6 +1983,7 @@ fn refund_ed_0_evm() {
 				target: H160::from(BOB),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
+			None,
 				gas_limit: 21_777u64,
 				max_fee_per_gas: U256::from(BASE_FEE_GENISIS),
 				max_priority_fee_per_gas: None,
@@ -1995,6 +2022,7 @@ fn author_does_receive_priority_fee() {
 				target: H160::from(ALICE),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
+			None,
 				gas_limit: 21_000u64,
 				max_fee_per_gas: U256::from(300 * GIGAWEI),
 				max_priority_fee_per_gas: Some(U256::from(200 * GIGAWEI)),
@@ -2034,6 +2062,7 @@ fn total_issuance_after_evm_transaction_with_priority_fee() {
 				target: H160::from(ALICE),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
+			None,
 				gas_limit: 21_000u64,
 				max_fee_per_gas: U256::from(2 * BASE_FEE_GENISIS),
 				max_priority_fee_per_gas: Some(U256::from(BASE_FEE_GENISIS)),
@@ -2083,6 +2112,7 @@ fn total_issuance_after_evm_transaction_without_priority_fee() {
 				target: H160::from(ALICE),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
+			None,
 				gas_limit: 21_000u64,
 				max_fee_per_gas: U256::from(BASE_FEE_GENISIS),
 				max_priority_fee_per_gas: None,
@@ -2151,6 +2181,7 @@ fn root_can_change_default_xcm_vers() {
 							id: [1u8; 32],
 						}]
 						.into(),
+			None,
 					})),
 					Box::new(VersionedAssets::V4(asset.clone().into())),
 					0,
@@ -2176,6 +2207,7 @@ fn root_can_change_default_xcm_vers() {
 						id: [1u8; 32],
 					}]
 					.into(),
+			None,
 				})),
 				Box::new(VersionedAssets::V4(asset.into())),
 				0,
@@ -2214,7 +2246,9 @@ fn transactor_cannot_use_more_than_max_weight() {
 				Box::new(xcm::VersionedLocation::V4(Location::parent())),
 				// Relay charges 1000 for every instruction, and we have 3, so 3000
 				3000.into(),
+			None,
 				20000.into(),
+			None,
 				None
 			));
 			// Root can set transact info
@@ -2239,6 +2273,7 @@ fn transactor_cannot_use_more_than_max_weight() {
 					// 20000 is the max
 					TransactWeights {
 						transact_required_weight_at_most: 17001.into(),
+			None,
 						overall_weight: None
 					},
 					false
@@ -2260,6 +2295,7 @@ fn transactor_cannot_use_more_than_max_weight() {
 					// 20000 is the max
 					TransactWeights {
 						transact_required_weight_at_most: 17001.into(),
+			None,
 						overall_weight: None
 					},
 					false
@@ -2295,6 +2331,7 @@ fn root_can_use_hrmp_manage() {
 					// 20000 is the max
 					TransactWeights {
 						transact_required_weight_at_most: 17001.into(),
+			None,
 						overall_weight: Some(Limited(20000.into()))
 					}
 				),
@@ -2328,6 +2365,7 @@ fn transact_through_signed_precompile_works_v1() {
 				Box::new(xcm::VersionedLocation::V4(Location::parent())),
 				// Relay charges 1000 for every instruction, and we have 3, so 3000
 				3000.into(),
+			None,
 				Weight::from_parts(200_000, (xcm_primitives::DEFAULT_PROOF_SIZE) + 4000),
 				Some(4000.into())
 			));
@@ -2347,6 +2385,7 @@ fn transact_through_signed_precompile_works_v1() {
 						fee_asset: fee_payer_asset,
 						weight: 15000,
 						call: bytes.into(),
+			None,
 					},
 				)
 				.expect_cost(25391)
@@ -2385,7 +2424,9 @@ fn transact_through_signed_precompile_works_v2() {
 						fee_asset: fee_payer_asset,
 						weight: 4_000_000,
 						call: bytes.into(),
+			None,
 						fee_amount: u128::from(total_weight).into(),
+			None,
 						overall_weight: total_weight,
 					},
 				)
@@ -2425,7 +2466,9 @@ fn transact_through_signed_cannot_send_to_local_chain() {
 						fee_asset: fee_payer_asset,
 						weight: 4_000_000,
 						call: bytes.into(),
+			None,
 						fee_amount: u128::from(total_weight).into(),
+			None,
 						overall_weight: total_weight,
 					},
 				)
@@ -2469,6 +2512,7 @@ fn author_mapping_precompile_associate_update_and_clear() {
 					author_mapping_precompile_address,
 					AuthorMappingPCall::add_association {
 						nimbus_id: [1u8; 32].into(),
+			None,
 					},
 				)
 				.expect_cost(16085)
@@ -2490,7 +2534,9 @@ fn author_mapping_precompile_associate_update_and_clear() {
 					author_mapping_precompile_address,
 					AuthorMappingPCall::update_association {
 						old_nimbus_id: [1u8; 32].into(),
+			None,
 						new_nimbus_id: [2u8; 32].into(),
+			None,
 					},
 				)
 				.expect_cost(15585)
@@ -2512,6 +2558,7 @@ fn author_mapping_precompile_associate_update_and_clear() {
 					author_mapping_precompile_address,
 					AuthorMappingPCall::clear_association {
 						nimbus_id: [2u8; 32].into(),
+			None,
 					},
 				)
 				.expect_cost(16112)
@@ -2555,6 +2602,7 @@ fn author_mapping_register_and_set_keys() {
 							H256::from([3u8; 32]),
 						))
 						.into(),
+			None,
 					},
 				)
 				.expect_cost(17897)
@@ -2580,6 +2628,7 @@ fn author_mapping_register_and_set_keys() {
 							H256::from([4u8; 32]),
 						))
 						.into(),
+			None,
 					},
 				)
 				.expect_cost(17897)
@@ -2680,6 +2729,7 @@ fn test_xcm_utils_weight_message() {
 
 		let input = XcmUtilsPCall::weight_message {
 			message: message.into(),
+			None,
 		};
 
 		Precompiles::new()
@@ -2913,14 +2963,19 @@ fn evm_revert_substrate_events() {
 			// Thus BatchAll will revert the transfer.
 			assert_ok!(RuntimeCall::EVM(pallet_evm::Call::call {
 				source: ALICE.into(),
+			None,
 				target: batch_precompile_address,
 				input: BatchPCall::batch_all {
 					to: vec![Address(BOB.into()), Address(batch_precompile_address)].into(),
+			None,
 					value: vec![U256::from(1 * UNIT), U256::zero()].into(),
+			None,
 					call_data: vec![].into(),
+			None,
 					gas_limit: vec![].into()
 				}
 				.into(),
+			None,
 				value: U256::zero(), // No value sent in EVM
 				gas_limit: 500_000,
 				max_fee_per_gas: U256::from(BASE_FEE_GENISIS),
@@ -2952,14 +3007,19 @@ fn evm_success_keeps_substrate_events() {
 
 			assert_ok!(RuntimeCall::EVM(pallet_evm::Call::call {
 				source: ALICE.into(),
+			None,
 				target: batch_precompile_address,
 				input: BatchPCall::batch_all {
 					to: vec![Address(BOB.into())].into(),
+			None,
 					value: vec![U256::from(1 * UNIT)].into(),
+			None,
 					call_data: vec![].into(),
+			None,
 					gas_limit: vec![].into()
 				}
 				.into(),
+			None,
 				value: U256::zero(), // No value sent in EVM
 				gas_limit: 500_000,
 				max_fee_per_gas: U256::from(BASE_FEE_GENISIS),
@@ -3002,6 +3062,7 @@ fn validate_transaction_fails_on_filtered_call() {
 				access_list: Default::default(),
 			}
 			.into(),
+			None,
 		);
 
 		assert_eq!(

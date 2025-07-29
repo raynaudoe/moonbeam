@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cargo check:*)",
+      "Bash(find:*)",
+      "Bash(cp:*)",
+      "Bash(# Copy missing function implementations to moonbeam\ntail -n 100 /Users/eze/Repos/moonbeam/runtime/moonriver/src/weights/pallet_collective_open_tech_committee.rs | grep -A 50 \"\"fn kill()\"\" >> /tmp/collective_functions.txt\ntail -n 100 /Users/eze/Repos/moonbeam/runtime/moonriver/src/weights/pallet_identity.rs | grep -A 100 \"\"fn set_username_for()\"\" >> /tmp/identity_functions.txt\necho \"\"Copied functions to temp files\"\")",
+      "Bash(grep -n \"set_username_for\" /Users/eze/Repos/moonbeam/runtime/moonriver/src/weights/pallet_identity.rs)",
+      "mcp__zen__analyze"
+    ],
+    "deny": []
+  }
+}
