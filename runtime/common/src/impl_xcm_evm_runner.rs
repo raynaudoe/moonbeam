@@ -18,7 +18,8 @@
 macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 	{} => {
 		use fp_evm::{CallInfo, CallOrCreateInfo, Context, Transfer};
-		use fp_ethereum::AuthorizationListItem;
+		use primitive_types as ethereum_types;
+		
 		use frame_support::dispatch::CallableCallFor;
 		use pallet_evm::{Runner, RunnerError};
 		use precompile_utils::{prelude::*, evm::handle::with_precompile_handle};
@@ -53,7 +54,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
 				// Fixed for polkadot-stable2412: Changed from tuple to AuthorizationListItem type
-				_authorization_list: Vec<AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -100,7 +101,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				} else {
 					let xcm_transaction = EthereumXcmTransaction::V2(EthereumXcmTransactionV2 {
 						gas_limit: gas_limit.into(),
-						action: pallet_ethereum_xcm::TransactionAction::Call(target),
+						action: pallet_ethereum_xcm::TransactionAction::Call(ethereum_types::H160::from(target.0)),
 						value,
 						input: input.try_into().map_err(|_| RunnerError {
 							error: DispatchError::Exhausted,
@@ -142,7 +143,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -162,7 +163,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_validate: bool,
 				_weight_limit: Option<Weight>,
@@ -182,7 +183,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				nonce: Option<U256>,
 				access_list: Vec<(H160, Vec<H256>)>,
 				// Fixed for polkadot-stable2412: Changed from tuple to AuthorizationListItem type
-				_authorization_list: Vec<AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				is_transactional: bool,
 				validate: bool,
 				weight_limit: Option<Weight>,
@@ -238,7 +239,7 @@ macro_rules! impl_evm_runner_precompile_or_eth_xcm {
 				_max_priority_fee_per_gas: Option<U256>,
 				_nonce: Option<U256>,
 				_access_list: Vec<(H160, Vec<H256>)>,
-				_authorization_list: Vec<AuthorizationListItem>,
+				_authorization_list: Vec<(U256, H160, U256, Option<H160>)>,
 				_is_transactional: bool,
 				_weight_limit: Option<Weight>,
 				_proof_size_base_cost: Option<u64>,

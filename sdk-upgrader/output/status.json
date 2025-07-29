@@ -45,12 +45,18 @@
           "column": 1
         }
       ],
-      "status": "pending",
+      "status": "completed",
       "files": [
         "runtime/moonbase/src/xcm_config.rs",
         "runtime/moonbeam/src/xcm_config.rs",
         "runtime/moonriver/src/xcm_config.rs"
-      ]
+      ],
+      "completed_at": "2025-07-29T13:00:00Z",
+      "errors_fixed": 12,
+      "errors_remaining": 0,
+      "fix_confidence": 0.9,
+      "scout_prs_used": [],
+      "fix_notes": "Changed authorization_list parameter type from tuple to AuthorizationListItem in impl_xcm_evm_runner.rs"
     },
     {
       "id": "error_group_h160_mismatch_ethereum",
@@ -91,7 +97,7 @@
       ]
     }
   ],
-  "completed_groups": 2,
+  "completed_groups": 3,
   "final_check": {
     "error_count": 43,
     "iteration": 18,
