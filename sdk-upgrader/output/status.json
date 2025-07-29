@@ -4,19 +4,32 @@
   "new_tag": "polkadot-stable2412",
   "old_tag": "polkadot-stable2409",
   "sdk_branch": "stable2412",
-  "iteration": 20,
+  "iteration": 21,
   "error_groups": [
     {
-      "id": "evm_runner_authorization_list",
-      "symbol": "AuthorizationListItem",
-      "description": "EVM runner methods expecting AuthorizationListItem but getting tuple",
-      "error_count": 12,
+      "id": "ethereum_transaction_types",
+      "symbol": "Transaction types mismatch",
+      "description": "Ethereum transaction types (Legacy, EIP2930, EIP1559) version mismatch",
+      "error_count": 9,
       "files": [
-        "runtime/moonbeam/src/xcm_config.rs",
-        "runtime/moonriver/src/xcm_config.rs",
-        "runtime/moonbase/src/xcm_config.rs"
+        "runtime/moonbeam/src/lib.rs",
+        "runtime/moonriver/src/lib.rs",
+        "runtime/moonbase/src/lib.rs"
       ],
-      "primary_error": "method has incompatible type for trait - expected AuthorizationListItem",
+      "primary_error": "mismatched types - different versions of ethereum crate transaction types",
+      "status": "fixed"
+    },
+    {
+      "id": "h256_u256_methods",
+      "symbol": "U256/H256 method signatures",
+      "description": "Method signature changes in primitive types",
+      "error_count": 6,
+      "files": [
+        "runtime/moonbeam/src/lib.rs",
+        "runtime/moonriver/src/lib.rs",
+        "runtime/moonbase/src/lib.rs"
+      ],
+      "primary_error": "this method takes 0 arguments but 1 argument was supplied",
       "status": "pending"
     }
   ],

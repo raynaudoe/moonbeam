@@ -391,36 +391,37 @@ macro_rules! impl_runtime_apis_plus_common {
 					xts_ready: Vec<<Block as BlockT>::Extrinsic>,
 					xts_future: Vec<<Block as BlockT>::Extrinsic>,
 				) -> TxPoolResponse {
-					TxPoolResponse {
-						ready: xts_ready
-							.into_iter()
-							.filter_map(|xt| match xt.0.function {
-								RuntimeCall::Ethereum(transact { transaction }) => {
-							use ethereum::TransactionV2;
-							Some(match transaction {
-								pallet_ethereum::Transaction::Legacy(t) => TransactionV2::Legacy(t),
-								pallet_ethereum::Transaction::EIP2930(t) => TransactionV2::EIP2930(t),
-								pallet_ethereum::Transaction::EIP1559(t) => TransactionV2::EIP1559(t),
-							})
-						},
-								_ => None,
-							})
-							.collect(),
-						future: xts_future
-							.into_iter()
-							.filter_map(|xt| match xt.0.function {
-								RuntimeCall::Ethereum(transact { transaction }) => {
-							use ethereum::TransactionV2;
-							Some(match transaction {
-								pallet_ethereum::Transaction::Legacy(t) => TransactionV2::Legacy(t),
-								pallet_ethereum::Transaction::EIP2930(t) => TransactionV2::EIP2930(t),
-								pallet_ethereum::Transaction::EIP1559(t) => TransactionV2::EIP1559(t),
-							})
-						},
-								_ => None,
-							})
-							.collect(),
-					}
+					use parity_scale_codec::{Decode, Encode};
+					
+					// Convert pallet_ethereum::Transaction to moonbeam_rpc_primitives_txpool::Transaction
+					// by encoding and decoding, since they have the same structure
+					let ready = xts_ready
+						.into_iter()
+						.filter_map(|xt| match xt.0.function {
+							RuntimeCall::Ethereum(transact { transaction }) => {
+								// Encode the pallet_ethereum::Transaction and decode as the expected type
+								let encoded = transaction.encode();
+								moonbeam_rpc_primitives_txpool::Transaction::decode(&mut &encoded[..])
+									.ok()
+							},
+							_ => None,
+						})
+						.collect();
+					
+					let future = xts_future
+						.into_iter()
+						.filter_map(|xt| match xt.0.function {
+							RuntimeCall::Ethereum(transact { transaction }) => {
+								// Encode the pallet_ethereum::Transaction and decode as the expected type
+								let encoded = transaction.encode();
+								moonbeam_rpc_primitives_txpool::Transaction::decode(&mut &encoded[..])
+									.ok()
+							},
+							_ => None,
+						})
+						.collect();
+					
+					TxPoolResponse { ready, future }
 				}
 			}
 
