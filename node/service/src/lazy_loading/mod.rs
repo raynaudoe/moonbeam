@@ -297,12 +297,15 @@ where
 
 	let maybe_select_chain = Some(sc_consensus::LongestChain::new(backend.clone()));
 
-	let transaction_pool = sc_transaction_pool::BasicPool::new_full(
-		config.transaction_pool.clone().into(),
-		config.role.is_authority().into(),
-		config.prometheus_registry(),
-		task_manager.spawn_essential_handle(),
-		client.clone(),
+	let transaction_pool = Arc::from(
+		sc_transaction_pool::Builder::new(
+			task_manager.spawn_essential_handle(),
+			client.clone(),
+			config.role.is_authority().into(),
+		)
+		.with_options(config.transaction_pool.clone().into())
+		.with_prometheus(config.prometheus_registry())
+		.build(),
 	);
 
 	let filter_pool: Option<FilterPool> = Some(Arc::new(Mutex::new(BTreeMap::new())));
@@ -484,7 +487,7 @@ where
 				is_validator: config.role.is_authority(),
 				enable_http_requests: true,
 				custom_extensions: move |_| vec![],
-			})
+			})?
 			.run(client.clone(), task_manager.spawn_handle())
 			.boxed(),
 		);
@@ -682,6 +685,7 @@ where
 							raw_downward_messages: downward_xcm_receiver.drain().collect(),
 							raw_horizontal_messages: hrmp_xcm_receiver.drain().collect(),
 							additional_key_values: Some(additional_key_values),
+							upgrade_go_ahead: None,
 						};
 
 						let randomness = session_keys_primitives::InherentDataProvider;
