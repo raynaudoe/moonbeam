@@ -82,6 +82,7 @@ impl frame_system::Config for Runtime {
 	type PreInherents = ();
 	type PostInherents = ();
 	type PostTransactions = ();
+	type ExtensionsWeightInfo = ();
 }
 
 parameter_types! {
@@ -101,6 +102,7 @@ impl pallet_balances::Config for Runtime {
 	type FreezeIdentifier = ();
 	type MaxFreezes = ();
 	type RuntimeFreezeReason = ();
+	type DoneSlashHandler = ();
 }
 
 pub type TestPrecompiles<R> = PrecompileSetBuilder<
@@ -120,7 +122,6 @@ pub type PCall = RandomnessPrecompileCall<Runtime>;
 parameter_types! {
 	pub PrecompilesValue: TestPrecompiles<Runtime> = TestPrecompiles::new();
 	pub const WeightPerGas: Weight = Weight::from_parts(1, 0);
-	pub const SuicideQuickClearLimit: u32 = 0;
 }
 
 impl pallet_evm::Config for Runtime {
@@ -145,7 +146,6 @@ impl pallet_evm::Config for Runtime {
 	type GasLimitStorageGrowthRatio = ();
 	type Timestamp = Timestamp;
 	type WeightInfo = pallet_evm::weights::SubstrateWeight<Runtime>;
-	type SuicideQuickClearLimit = SuicideQuickClearLimit;
 	type AccountProvider = FrameSystemAccountProvider<Runtime>;
 }
 
