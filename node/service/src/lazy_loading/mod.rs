@@ -46,7 +46,7 @@ use sc_service::{
 	LocalCallExecutor, PartialComponents, TaskManager,
 };
 use sc_telemetry::{TelemetryHandle, TelemetryWorker};
-use sc_transaction_pool_api::OffchainTransactionPoolFactory;
+use sc_transaction_pool_api::{OffchainTransactionPoolFactory, TransactionPool};
 use sp_api::ConstructRuntimeApi;
 use sp_blockchain::HeaderBackend;
 use sp_core::traits::CodeExecutor;
@@ -516,8 +516,6 @@ where
 					Box::new(
 						// This bit cribbed from the implementation of instant seal.
 						transaction_pool
-							.pool()
-							.validated_pool()
 							.import_notification_stream()
 							.map(|_| EngineCommand::SealNewBlock {
 								create_empty: false,
@@ -784,7 +782,6 @@ where
 					fc_db::Backend::KeyValue(ref b) => b.clone(),
 					fc_db::Backend::Sql(ref b) => b.clone(),
 				},
-				graph: pool.pool().clone(),
 				pool: pool.clone(),
 				is_authority: collator,
 				max_past_logs,

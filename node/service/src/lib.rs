@@ -22,6 +22,9 @@
 //! Full Service: A complete parachain node including the pool, rpc, network, embedded relay chain
 //! Dev Service: A leaner service without the relay chain backing.
 
+use moonbeam_core_primitives::{AccountId, Balance, Block, BlockNumber, Hash, Header, Index};
+use sp_runtime::traits::BlakeTwo256;
+
 pub mod rpc;
 
 use cumulus_client_cli::CollatorOptions;
@@ -71,7 +74,7 @@ use sc_service::{
 	TFullClient, TaskManager,
 };
 use sc_telemetry::{Telemetry, TelemetryHandle, TelemetryWorker, TelemetryWorkerHandle};
-use sc_transaction_pool_api::OffchainTransactionPoolFactory;
+use sc_transaction_pool_api::{OffchainTransactionPoolFactory, TransactionPool};
 use session_keys_primitives::VrfApi;
 use sp_api::{ConstructRuntimeApi, ProvideRuntimeApi};
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
@@ -103,7 +106,7 @@ type PartialComponentsResult<Client, Backend> = Result<
 		Backend,
 		MaybeSelectChain<Backend>,
 		sc_consensus::DefaultImportQueue<Block>,
-		sc_transaction_pool::BasicPool<Block, Client>,
+		sc_transaction_pool::TransactionPoolHandle<Block, Client>,
 		(
 			BlockImportPipeline<FrontierBlockImport<Client>, ParachainBlockImport<Client, Backend>>,
 			Option<FilterPool>,
@@ -353,7 +356,7 @@ where
 	Ok(frontier_backend)
 }
 
-use sp_runtime::{traits::BlakeTwo256, DigestItem, Percent};
+use sp_runtime::{DigestItem, Percent};
 
 pub const SOFT_DEADLINE_PERCENT: Percent = Percent::from_percent(100);
 
@@ -542,12 +545,15 @@ where
 		None
 	};
 
-	let transaction_pool = sc_transaction_pool::BasicPool::new_full(
-		config.transaction_pool.clone().into(),
-		config.role.is_authority().into(),
-		config.prometheus_registry(),
-		task_manager.spawn_essential_handle(),
-		client.clone(),
+	let transaction_pool = Arc::from(
+		sc_transaction_pool::Builder::new(
+			task_manager.spawn_essential_handle(),
+			client.clone(),
+			config.role.is_authority().into(),
+		)
+		.with_options(config.transaction_pool.clone().into())
+		.with_prometheus(config.prometheus_registry())
+		.build(),
 	);
 
 	let filter_pool: Option<FilterPool> = Some(Arc::new(Mutex::new(BTreeMap::new())));
@@ -628,8 +634,8 @@ async fn build_relay_chain_interface(
 	if let cumulus_client_cli::RelayChainMode::ExternalRpc(rpc_target_urls) =
 		collator_options.relay_chain_mode
 	{
-		let prometheus_registry = polkadot_config.prometheus_registry();
-		build_minimal_relay_chain_node_with_rpc(polkadot_config, prometheus_registry, task_manager, rpc_target_urls)
+		let prometheus_registry = polkadot_config.prometheus_registry().cloned();
+		build_minimal_relay_chain_node_with_rpc(polkadot_config, prometheus_registry.as_ref(), task_manager, rpc_target_urls)
 			.await
 	} else {
 		build_inprocess_relay_chain(
@@ -829,7 +835,6 @@ where
 					fc_db::Backend::KeyValue(b) => b.clone(),
 					fc_db::Backend::Sql(b) => b.clone(),
 				},
-				graph: pool.pool().clone(),
 				pool: pool.clone(),
 				is_authority: collator,
 				max_past_logs,
@@ -1007,7 +1012,7 @@ fn start_consensus<RuntimeApi, SO>(
 	telemetry: Option<TelemetryHandle>,
 	task_manager: &TaskManager,
 	relay_chain_interface: Arc<dyn RelayChainInterface>,
-	transaction_pool: Arc<sc_transaction_pool::BasicPool<Block, FullClient<RuntimeApi>>>,
+	transaction_pool: Arc<sc_transaction_pool::TransactionPoolHandle<Block, FullClient<RuntimeApi>>>,
 	keystore: KeystorePtr,
 	para_id: ParaId,
 	collator_key: CollatorPair,
@@ -1112,7 +1117,7 @@ where
 				slot_duration: None,
 				sync_oracle,
 				reinitialize: false,
-				full_pov_size: nimbus_full_pov,
+				max_pov_percentage: if nimbus_full_pov { 100 } else { 50 },
 			}),
 		);
 	} else {
@@ -1138,7 +1143,7 @@ where
 					para_client: client,
 					proposer,
 					relay_client: relay_chain_interface,
-					full_pov_size: nimbus_full_pov,
+					max_pov_percentage: if nimbus_full_pov { 100 } else { 50 },
 				},
 			),
 		);
@@ -1269,6 +1274,7 @@ where
 				enable_http_requests: true,
 				custom_extensions: move |_| vec![],
 			})
+			.unwrap()
 			.run(client.clone(), task_manager.spawn_handle())
 			.boxed(),
 		);
@@ -1304,8 +1310,6 @@ where
 					Box::new(
 						// This bit cribbed from the implementation of instant seal.
 						transaction_pool
-							.pool()
-							.validated_pool()
 							.import_notification_stream()
 							.map(|_| EngineCommand::SealNewBlock {
 								create_empty: false,
@@ -1465,6 +1469,7 @@ where
 							raw_downward_messages: downward_xcm_receiver.drain().collect(),
 							raw_horizontal_messages: hrmp_xcm_receiver.drain().collect(),
 							additional_key_values: Some(additional_key_values),
+							upgrade_go_ahead: None,
 						};
 
 						let randomness = session_keys_primitives::InherentDataProvider;
@@ -1559,7 +1564,6 @@ where
 					fc_db::Backend::KeyValue(b) => b.clone(),
 					fc_db::Backend::Sql(b) => b.clone(),
 				},
-				graph: pool.pool().clone(),
 				pool: pool.clone(),
 				is_authority: collator,
 				max_past_logs,

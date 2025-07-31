@@ -699,6 +699,11 @@ impl<Block: BlockT + DeserializeOwned> backend::BlockImportOperation<Block>
 	) -> sp_blockchain::Result<()> {
 		Ok(())
 	}
+
+	fn set_create_gap(&mut self, _create_gap: bool) {
+		// Gap creation is not supported in lazy loading backend
+		// This is a no-op implementation as gaps are managed differently
+	}
 }
 
 /// DB-backed patricia trie state, transaction type is an overlay of changes to commit.

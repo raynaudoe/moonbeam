@@ -44,7 +44,6 @@ use sc_network::service::traits::NetworkService;
 use sc_network_sync::SyncingService;
 use sc_rpc::SubscriptionTaskExecutor;
 use sc_service::TaskManager;
-use sc_transaction_pool::{ChainApi, Pool};
 use sc_transaction_pool_api::TransactionPool;
 use sp_api::{CallApiAt, ProvideRuntimeApi};
 use sp_blockchain::{
@@ -97,13 +96,11 @@ where
 }
 
 /// Full client dependencies.
-pub struct FullDeps<C, P, A: ChainApi, BE> {
+pub struct FullDeps<C, P, BE> {
 	/// The client instance to use.
 	pub client: Arc<C>,
 	/// Transaction pool instance.
 	pub pool: Arc<P>,
-	/// Graph pool instance.
-	pub graph: Arc<Pool<A>>,
 	/// The Node authority flag
 	pub is_authority: bool,
 	/// Network service
@@ -148,8 +145,8 @@ pub struct TracingConfig {
 }
 
 /// Instantiate all Full RPC extensions.
-pub fn create_full<C, P, BE, A>(
-	deps: FullDeps<C, P, A, BE>,
+pub fn create_full<C, P, BE>(
+	deps: FullDeps<C, P, BE>,
 	subscription_task_executor: SubscriptionTaskExecutor,
 	maybe_tracing_config: Option<TracingConfig>,
 	pubsub_notification_sinks: Arc<
@@ -168,9 +165,8 @@ where
 	C: HeaderBackend<Block> + HeaderMetadata<Block, Error = BlockChainError> + 'static,
 	C: CallApiAt<Block>,
 	C: Send + Sync + 'static,
-	A: ChainApi<Block = Block> + 'static,
 	C::Api: RuntimeApiCollection,
-	P: TransactionPool<Block = Block> + 'static,
+	P: TransactionPool<Block = Block, Hash = sp_core::H256> + 'static,
 {
 	use fc_rpc::{
 		Eth, EthApiServer, EthFilter, EthFilterApiServer, EthPubSub, EthPubSubApiServer, Net,
@@ -187,7 +183,6 @@ where
 	let FullDeps {
 		client,
 		pool,
-		graph,
 		is_authority,
 		network,
 		sync,
@@ -247,10 +242,10 @@ where
 	};
 
 	io.merge(
-		Eth::<_, _, _, _, _, _, _, MoonbeamEthConfig<_, _>>::new(
+		Eth::<_, _, _, _, _, _, MoonbeamEthConfig<_, _>>::new(
 			Arc::clone(&client),
 			Arc::clone(&pool),
-			graph.clone(),
+			pool.clone(),
 			convert_transaction,
 			Arc::clone(&sync),
 			signers,
@@ -274,7 +269,7 @@ where
 			EthFilter::new(
 				client.clone(),
 				frontier_backend.clone(),
-				graph.clone(),
+				pool.clone(),
 				filter_pool,
 				500_usize, // max stored filters
 				max_past_logs,
@@ -298,7 +293,7 @@ where
 	io.merge(Web3::new(Arc::clone(&client)).into_rpc())?;
 	io.merge(
 		EthPubSub::new(
-			pool,
+			pool.clone(),
 			Arc::clone(&client),
 			sync.clone(),
 			subscription_task_executor,
@@ -309,7 +304,7 @@ where
 	)?;
 
 	if ethapi_cmd.contains(&EthApiCmd::Txpool) {
-		io.merge(TxPool::new(Arc::clone(&client), graph).into_rpc())?;
+		io.merge(TxPool::new(Arc::clone(&client), pool.clone()).into_rpc())?;
 	}
 
 	io.merge(MoonbeamFinality::new(client.clone(), frontier_backend.clone()).into_rpc())?;
